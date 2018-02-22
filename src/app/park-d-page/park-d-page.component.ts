@@ -15,7 +15,6 @@ export class ParkDPageComponent implements OnInit {
     this.parkingLotStatusList = parkdService.getParkingList();
   }
 
-  //constructor() { }
 
   ngOnInit() {
   }
