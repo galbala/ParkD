@@ -1,9 +1,10 @@
-<p>
-
-  <button mat-raised-button color="primary" (click)="confirmUser()">אשר</button>
-
-  <mat-form-field class="example-form-field">
-    <input matInput type="text" placeholder="מספר עובד" [(ngModel)]="userId"/>
-    
-  </mat-form-field>
-</p>
+<div class="card-container">
+    <mat-card>
+      <mat-form-field class="example-form-field">
+        <input matInput type="text" placeholder="מספר עובד" [(ngModel)]="userId"/>    
+      </mat-form-field>
+      <button mat-fab color="primary" (click)="confirmUser()">
+          <i class="material-icons">keyboard_arrow_left</i>
+        </button>
+    </mat-card>
+</div>
