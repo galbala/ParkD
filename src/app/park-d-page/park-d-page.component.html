@@ -1,15 +1,16 @@
 <div style="direction: rtl;">
-  <app-user-auth></app-user-auth>
-
-  <div *ngFor = "let parkingLotStatus of parkingLotStatusList">
-      <app-park-status [parkingLot]="parkingLotStatus"></app-park-status>
-    </div>
-
-    
-    <br><br><br>
-
-    <div>
-        <app-exit-request [parkingLotToExit]="parkingLotToExitFrom"></app-exit-request>
-    </div>
-    
-
+        <app-user-auth></app-user-auth>
+       
+        <div *ngIf="userState==2">
+            <div *ngFor = "let parkingLotStatus of parkingLotStatusList" >
+                <app-park-status [parkingLot]="parkingLotStatus"></app-park-status>
+            </div>
+      </div>
+      
+      <div *ngIf="userState==1">
+              <app-exit-request [parkingLotToExit]="parkingLotToExitFrom"></app-exit-request>
+      </div>
+      
+</div>
+      
+      
