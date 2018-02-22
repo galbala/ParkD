@@ -1,9 +1,11 @@
 <div>
  
-    <button *ngIf="parkingLot.aboutToBeFreePlaces>0" mat-raised-button color="primary" (click)="reserve()" >שריין</button>
+    {{parkingLot.id}} {{parkingLot.name}} 
   
   {{parkingLot.freePlaces}}/{{parkingLot.totalPlaces}}
   מתפנה בקרוב {{parkingLot.aboutToBeFreePlaces}}
-   {{parkingLot.name}} {{parkingLot.id}}
+  
+
+   <button *ngIf="parkingLot.aboutToBeFreePlaces>0" mat-raised-button color="primary" (click)="reserve()" >שריין</button>
 
 </div>
