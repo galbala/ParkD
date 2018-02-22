@@ -27,8 +27,4 @@ export class ParkDPageComponent implements OnInit {
   get userState() {
     return this.parkdService.userState;
   }
-
-  showEnter() : boolean{
-      return (this.parkdService.userState == UserStateType.enter);
-  }
 }
