@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ParkingLot } from '../model/parking-lot';
+import { ParkdService } from '../parkd.service';
 
 @Component({
   selector: 'app-park-d-page',
@@ -7,7 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ParkDPageComponent implements OnInit {
 
-  constructor() { }
+  parkingLotStatusList: ParkingLot[];
+
+  constructor(private parkdService: ParkdService) {
+    this.parkingLotStatusList = parkdService.getParkingList();
+  }
+
+  //constructor() { }
 
   ngOnInit() {
   }
