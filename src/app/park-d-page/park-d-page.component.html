@@ -1,7 +1,10 @@
 <div style="direction: rtl;">
   <app-user-auth></app-user-auth>
-
-  <div *ngFor = "let parkingLotStatus of parkingLotStatusList">
+ 
+      <div *ngIf="userState==2">
+  <div *ngFor = "let parkingLotStatus of parkingLotStatusList" >
     <app-park-status [parkingLot]="parkingLotStatus"></app-park-status>
   </div>
+</div>
+
 </div>

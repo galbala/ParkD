@@ -5,7 +5,7 @@ import { ParkingUser } from './model/parking-user';
 @Injectable()
 export class ParkdService {
 
-  private userState: UserStateType;
+   userState: UserStateType;
   private userId: number = null;
   private parkingLotList: ParkingLot[];
   private parkingUserList: ParkingUser[];

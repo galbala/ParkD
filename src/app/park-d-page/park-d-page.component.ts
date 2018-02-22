@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ParkingLot } from '../model/parking-lot';
-import { ParkdService } from '../parkd.service';
+import { ParkdService, UserStateType } from '../parkd.service';
 
 @Component({
   selector: 'app-park-d-page',
@@ -19,4 +19,11 @@ export class ParkDPageComponent implements OnInit {
   ngOnInit() {
   }
 
+  get userState() {
+    return this.parkdService.userState;
+  }
+
+  showEnter() : boolean{
+      return (this.parkdService.userState == UserStateType.enter);
+  }
 }
