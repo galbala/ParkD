@@ -3,9 +3,10 @@
 
   <app-user-auth></app-user-auth>
 
-
   <ul>
     <li *ngFor = "let parkingLotStatus of parkingLotStatusList">
-      <app-park-status>[[parkingLot]]</app-park-status>
+      <app-park-status [parkingLot]="parkingLotStatus"></app-park-status>
+      </li>
   </ul>
+
 

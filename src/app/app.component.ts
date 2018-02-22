@@ -16,5 +16,4 @@ export class AppComponent {
   constructor(private parkdService: ParkdService) {
     this.parkingLotStatusList = parkdService.getParkingList();
   }
-
 }

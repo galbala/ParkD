@@ -11,7 +11,7 @@ export class ParkStatusComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-  }
+    console.log(JSON.stringify(this.parkingLot)) ; }
 
   reserve() {
     alert('reserve');
