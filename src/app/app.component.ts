@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ParkingLot } from './model/parking-lot';
 import { ParkdService } from './parkd.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -8,12 +9,16 @@ import { ParkdService } from './parkd.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'ParKD1';
 
 
   parkingLotStatusList: ParkingLot[];
 
-  constructor(private parkdService: ParkdService) {
+  constructor(private parkdService: ParkdService, private router: Router) {
     this.parkingLotStatusList = parkdService.getParkingList();
   }
+
+  navigate(path: string) {
+    this.router.navigateByUrl(path);
+  }
+
 }

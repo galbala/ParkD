@@ -1,12 +1,25 @@
 <!--The content below is only a placeholder and can be replaced.-->
 
 
-  <app-user-auth></app-user-auth>
+  <!-- <app-user-auth></app-user-auth>
 
   <ul>
     <li *ngFor = "let parkingLotStatus of parkingLotStatusList">
       <app-park-status [parkingLot]="parkingLotStatus"></app-park-status>
       </li>
-  </ul>
+  </ul> -->
 
 
+<div class="sticky-menu">
+  <img src="../assets/images/P.new.png">
+  <div class="app-menu">
+      <button mat-button (click)="navigate('simulation')">סימולטור</button>
+      <button mat-button (click)="navigate('parkd')">כניסה / יציאה מחניון</button>
+  </div>
+</div>
+<div class="main-nav">
+  <div class="app-logo">
+    <img src="../assets/images/logo.new.png">
+  </div>
+</div>
+<router-outlet></router-outlet>
