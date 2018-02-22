@@ -1,9 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-
 import { AppComponent } from './app.component';
 import { UserAuthComponent } from './user-auth/user-auth.component';
+import { MaterialModule } from './material.module';
 
 
 @NgModule({
@@ -12,7 +12,8 @@ import { UserAuthComponent } from './user-auth/user-auth.component';
     UserAuthComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]
