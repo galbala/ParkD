@@ -1,4 +1,9 @@
 <p>
-  user-auth works!
-  <button (click)="confirmUser()">אשר</button>
+
+  <button mat-raised-button color="primary" (click)="confirmUser()">אשר</button>
+
+  <mat-form-field class="example-form-field">
+    <input matInput type="text" placeholder="מספר עובד" [(ngModel)]="userId"/>
+    
+  </mat-form-field>
 </p>
