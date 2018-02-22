@@ -11,6 +11,11 @@ export class ParkDPageComponent implements OnInit {
 
   parkingLotStatusList: ParkingLot[];
 
+  get parkingLotToExitFrom(): ParkingLot {
+    return this.parkingLotStatusList[0];
+  }
+
+
   constructor(private parkdService: ParkdService) {
     this.parkingLotStatusList = parkdService.getParkingList();
   }
