@@ -13,21 +13,21 @@ export class ParkdService {
    userState: UserStateType;
   private userId: number = null;
   private parkingLotList: ParkingLot[] = [];
-  private parkingUserList: ParkingUser[];
+  //private parkingUserList: ParkingUser[];
   private userActionList: UserAction[];
    parkingLotToExitFrom: ParkingLot;
 
   constructor(private http: HttpClient) { 
 
-    this.parkingUserList = [
-      {parkId:1, userId: 1003},
-      {parkId:1, userId: 1004},
-      {parkId:1, userId: 1005},
-      {parkId:2, userId: 2001},
-      {parkId:2, userId: 2002},
-      {parkId:3, userId: 3001},
-      {parkId:3, userId: 3003},
-    ];
+    // this.parkingUserList = [
+    //   {parkId:1, userId: 1003},
+    //   {parkId:1, userId: 1004},
+    //   {parkId:1, userId: 1005},
+    //   {parkId:2, userId: 2001},
+    //   {parkId:2, userId: 2002},
+    //   {parkId:3, userId: 3001},
+    //   {parkId:3, userId: 3003},
+    // ];
 
     this.userActionList = [
       {id: 1, userId: 4001, parkId: 1, actionType: ActionType.enter, actionTime: new Date() },
@@ -42,12 +42,12 @@ export class ParkdService {
  
   
 
-  private setUserState() {
+  private async setUserState() {
     var parkingUser: ParkingUser;
     if (this.userId == null)
       this.userState = UserStateType.notExist;
-    else{
-      this.parkingLotToExitFrom = this.parkingLotForUserExitAction(this.userId);
+    else {
+      this.parkingLotToExitFrom = await this.getParkingLotToExitFrom(this.userId);
       
       if (this.parkingLotToExitFrom != null)
         this.userState = UserStateType.exit;
@@ -56,16 +56,9 @@ export class ParkdService {
     }
   }
 
-  private parkingLotForUserExitAction(userId: number): ParkingLot {
-    var parkingUser: ParkingUser;
-    parkingUser = this.parkingUserList.find(x => x.userId == userId);
-    if (parkingUser != null){
-      this.userState = UserStateType.exit;
-      return this.getParkingLotById(parkingUser.parkId);
-    }
-    else
-      return null;
-
+  private async getParkingLotToExitFrom(userId: number): Promise<ParkingLot> {
+    var response = await this.http.get("/api/getParkingLotToExitFrom/"+userId).toPromise(); 
+    return response as ParkingLot;    
   }
 
   private getParkingLotById(parkId: number): ParkingLot {
