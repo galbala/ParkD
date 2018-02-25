@@ -1,3 +1,8 @@
-<p>
-  park-simulation-page works!
-</p>
+
+<app-user-auth style="direction: rtl;"></app-user-auth>
+
+<div *ngIf="userState>0">
+    <div class="simulate" *ngFor = "let parkingLotStatus of parkingLotStatusList" >
+        <app-park-simulate [parkingLot]="parkingLotStatus" (getIn)="onGetIn($event)"  (getOut)="onGetOut($event)"></app-park-simulate>
+    </div>
+</div>

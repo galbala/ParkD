@@ -1,0 +1,10 @@
+<div>
+ 
+  {{parkingLot.name}} 
+  {{parkingLot.freePlaces}}/{{parkingLot.totalPlaces}}
+
+
+ <button *ngIf="parkingLot.freePlaces>=0" mat-raised-button color="primary" (click)="enter()" >+</button>
+ <button *ngIf="parkingLot.totalPlaces-parkingLot.freePlaces>0" mat-raised-button color="primary" (click)="exit()" >-</button>
+
+</div>

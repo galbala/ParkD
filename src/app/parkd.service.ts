@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ParkingLot } from './model/parking-lot';
 import { ParkingUser } from './model/parking-user';
+import { UserAction, ActionType } from './model/user-action';
 import { HttpClient } from '@angular/common/http';
 
 import 'rxjs/add/operator/toPromise';
@@ -13,6 +14,7 @@ export class ParkdService {
   private userId: number = null;
   private parkingLotList: ParkingLot[] = [];
   private parkingUserList: ParkingUser[];
+  private userActionList: UserAction[];
    parkingLotToExitFrom: ParkingLot;
 
   constructor(private http: HttpClient) { 
@@ -27,6 +29,13 @@ export class ParkdService {
       {parkId:3, userId: 3003},
     ];
 
+    this.userActionList = [
+      {id: 1, userId: 4001, parkId: 1, actionType: ActionType.enter, actionTime: new Date() },
+      {id: 1, userId: 4002, parkId: 1, actionType: ActionType.exit, actionTime: new Date() },
+      {id: 1, userId: 4003, parkId: 2, actionType: ActionType.exit, actionTime: new Date() },
+      {id: 1, userId: 4004, parkId: 2, actionType: ActionType.exit, actionTime: new Date() },
+      {id: 1, userId: 4005, parkId: 3, actionType: ActionType.exit, actionTime: new Date() },
+    ];
     this.parkingLotToExitFrom = null;
     this.setUserState();
   }
@@ -38,14 +47,25 @@ export class ParkdService {
     if (this.userId == null)
       this.userState = UserStateType.notExist;
     else{
-      parkingUser = this.parkingUserList.find(x => x.userId == this.userId);
-      if (parkingUser != null){
+      this.parkingLotToExitFrom = this.parkingLotForUserExitAction(this.userId);
+      
+      if (this.parkingLotToExitFrom != null)
         this.userState = UserStateType.exit;
-        this.parkingLotToExitFrom = this.getParkingLotById(parkingUser.parkId);
-      }
       else
-      this.userState = UserStateType.enter;
+        this.userState = UserStateType.enter;
     }
+  }
+
+  private parkingLotForUserExitAction(userId: number): ParkingLot {
+    var parkingUser: ParkingUser;
+    parkingUser = this.parkingUserList.find(x => x.userId == userId);
+    if (parkingUser != null){
+      this.userState = UserStateType.exit;
+      return this.getParkingLotById(parkingUser.parkId);
+    }
+    else
+      return null;
+
   }
 
   private getParkingLotById(parkId: number): ParkingLot {
@@ -61,18 +81,38 @@ export class ParkdService {
   setUserAuth(id: number) {
     this.userId = id;
     this.setUserState();
-    console.log(this.userId);
+    console.log(this.userId + " , " + this.userState);
   }
 
   reserveParking(parkingLot: ParkingLot){
-    alert ("משריין לך את חניון " + parkingLot.name);
+    const userAction: UserAction = {
+        id: 1,
+        userId: this.userId,
+        parkId: parkingLot.id,
+        actionType: ActionType.enter,
+        actionTime: new Date()
+    };
+    
+    this.userActionList.push(userAction);
+
+    alert ("שוריין עבורך " + parkingLot.name);
 
   }
 
   exitFromParking(parkingLot: ParkingLot){
-    alert ("יוצא מחניון " + parkingLot.name);
+    alert ("יוצא מחניון: " + parkingLot.name + "\n" + "מס עובד: " + this.userId);
 
   }
+
+  getOut(parkId: number){
+    alert(this.userId + " יצאת מהחניון "+ parkId);
+  }
+
+  getIn(parkId: number){
+    alert(this.userId + " נכנסת לחניון " + parkId);
+  }
+
+
 }
 
 export enum UserStateType {
