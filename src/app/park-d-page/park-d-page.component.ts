@@ -32,4 +32,9 @@ export class ParkDPageComponent implements OnInit {
     
     alert("reserve Parking");
   }
+
+  onExitFromParking(parkingLotToExit: ParkingLot){
+    alert("exit from parking: " + parkingLotToExit.name);
+  }
+
 }
