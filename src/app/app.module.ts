@@ -12,6 +12,7 @@ import { ParkSimulationPageComponent } from './park-simulation-page/park-simulat
 import { ParkDPageComponent } from './park-d-page/park-d-page.component';
 import { ExitRequestComponent } from './exit-request/exit-request.component';
 import { ParkSimulateComponent } from './park-simulate/park-simulate.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { ParkSimulateComponent } from './park-simulate/park-simulate.component';
     BrowserModule,
     MaterialModule,
     FormsModule,
+    HttpClientModule,
     AppRoutingModule
   ],
   providers: [ParkdService],
