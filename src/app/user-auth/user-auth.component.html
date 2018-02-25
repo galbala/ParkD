@@ -1,9 +1,9 @@
 <div class="card-container">
     <mat-card>
       <mat-form-field class="example-form-field">
-        <input matInput type="text" placeholder="מספר עובד" [(ngModel)]="userId"/>    
+        <input matInput type="text" placeholder="מספר עובד" [(ngModel)]="userId" (keyup.enter)="confirmUser()"  />    
       </mat-form-field>
-      <button mat-fab color="primary" (click)="confirmUser()">
+      <button mat-fab color="primary" (click)="confirmUser()" >
           <i class="material-icons">keyboard_arrow_left</i>
         </button>
     </mat-card>
