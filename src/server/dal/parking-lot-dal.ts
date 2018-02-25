@@ -1,3 +1,4 @@
+import { ParkingUser } from "../../app/model/parking-user";
 
 export async function getParkingLots() {
     return [
@@ -6,4 +7,13 @@ export async function getParkingLots() {
         {id:3, name: 'חניון עבודה סוציאלית', totalPlaces:200, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:1},
         {id:4, name: 'חניון שקר כלשהו', totalPlaces:500, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:1},
     ];
+}
+
+export async function getParkingLotToExitFrom(userId: number) {
+    var parkingUser: ParkingUser;
+    parkingUser = this.parkingUserList.find(x => x.userId == userId);
+    if (parkingUser != null)
+      return this.getParkingLotById(parkingUser.parkId);
+    else
+      return null;
 }
