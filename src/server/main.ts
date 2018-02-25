@@ -3,29 +3,22 @@ import { getParkingLots, getParkingLotToExitFrom } from "./dal/parking-lot-dal";
 
 const app = express();
 
-app.get("/api/getParkingLots", wrap(async function() {
-    console.log("*****************");
+app.get("/api/getParkingLots", wrap(async function(req) {
     return await getParkingLots();
 })) 
 
-// app.get('/api/getParkingLotToExitFrom/:userId', function(request, response) {
-//     var id = request.params.userId;
-//     response.end("I have received the ID: " + id);
-// });
 
 
- app.get("/api/getParkingLotToExitFrom/:userId", wrap(async function() {
-     //console.log("************XXXXXXXXXXXXXXXXXXXXXXXXXXX*****");
-     //let userId = req.params.userId;
-     console.log("*****************");
-     return await getParkingLotToExitFrom(1);
+ app.get("/api/getParkingLotToExitFrom/:userId", wrap(async function(req) {
+     let userId = req.params.userId;
+     return await getParkingLotToExitFrom(userId);
  })) 
 
 function wrap(fn){
     return function(req, res) {
         try {
 
-            const retVal = fn();
+            const retVal = fn(req);
 
             if (retVal && retVal.then) {
                 retVal.then(data => {

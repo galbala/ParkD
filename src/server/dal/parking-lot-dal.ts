@@ -24,11 +24,13 @@ export async function getParkingLots() {
 export async function getParkingLotToExitFrom(userId: number) {
     var parkingUser: ParkingUser;
     parkingUser = this.parkingUserList.find(x => x.userId == userId);
+    //console.log("*****************",parkingUser);
     if (parkingUser != null)
       return this.getParkingLotById(parkingUser.parkId);
     else
       return null;
 }
 
-export async function getParkingLotById(userId: number) {
+export function getParkingLotById(parkId: number) {
+  return this.parkingLotList.find(x => x.id == parkId);
 }
