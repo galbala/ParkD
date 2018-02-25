@@ -15,6 +15,7 @@ export class ParkStatusComponent implements OnInit {
     console.log(JSON.stringify(this.parkingLot)) ; }
 
   reserve() {
+    console.log("this.reserveParking.emit();");
     this.reserveParking.emit();
   }
 
