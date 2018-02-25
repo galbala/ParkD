@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ParkingLot } from './model/parking-lot';
 import { ParkingUser } from './model/parking-user';
-<<<<<<< HEAD
 import { UserAction, ActionType } from './model/user-action';
-=======
 import { HttpClient } from '@angular/common/http';
 
 import 'rxjs/add/operator/toPromise';
 
->>>>>>> dea428e38a63a7e93b5ed534b41d42191c007339
 
 @Injectable()
 export class ParkdService {
@@ -20,18 +17,7 @@ export class ParkdService {
   private userActionList: UserAction[];
    parkingLotToExitFrom: ParkingLot;
 
-<<<<<<< HEAD
-   
-
-  constructor() { 
-    this.parkingLotList = [
-      {id:1, name: 'חניון עובדים', totalPlaces:300, freePlaces: 10, reservedPlaces:0, aboutToBeFreePlaces:0  },
-      {id:2, name: 'חניון דרום', totalPlaces:100, freePlaces: 0, reservedPlaces:2, aboutToBeFreePlaces:1},
-      {id:3, name: 'חניון עבודה סוציאלית', totalPlaces:200, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:1},
-    ];
-=======
   constructor(private http: HttpClient) { 
->>>>>>> dea428e38a63a7e93b5ed534b41d42191c007339
 
     this.parkingUserList = [
       {parkId:1, userId: 1003},
