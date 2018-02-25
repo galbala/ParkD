@@ -34,7 +34,7 @@ export class ParkdService {
   private setUserState() {
     if (this.userId == null)
       this.userState = UserStateType.notExist;
-    else if (this.parkingUserList.filter(x => x.userId == this.userId) != null)
+    else if (this.parkingUserList.find(x => x.userId == this.userId) != null)
       this.userState = UserStateType.exit;
     else
       this.userState = UserStateType.enter;

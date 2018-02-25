@@ -1,13 +1,13 @@
 <div style="direction: rtl;">
         <app-user-auth></app-user-auth>
        
-        <div *ngIf="userState==2">
+        <div *ngIf="userState==1">  <!-- enter -->
             <div *ngFor = "let parkingLotStatus of parkingLotStatusList" >
                 <app-park-status [parkingLot]="parkingLotStatus"></app-park-status>
             </div>
       </div>
       
-      <div *ngIf="userState==1">
+      <div *ngIf="userState==2"> <!-- exit -->
               <app-exit-request [parkingLotToExit]="parkingLotToExitFrom"></app-exit-request>
       </div>
       
