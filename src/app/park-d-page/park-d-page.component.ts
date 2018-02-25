@@ -28,8 +28,7 @@ export class ParkDPageComponent implements OnInit {
     return this.parkdService.userState;
   }
 
-  onReserveParking(){
-    
-    alert("reserve Parking");
+  onReserveParking(parkingLot: ParkingLot){
+    this.parkdService.reserveParking(parkingLot);
   }
 }
