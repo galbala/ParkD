@@ -40,7 +40,11 @@ export class ParkdService {
     this.setUserState();
   }
  
-  
+  public resetUser(){
+    this.userId = null;
+    this.setUserState();
+  }
+
 
   private async setUserState() {
     var parkingUser: ParkingUser;

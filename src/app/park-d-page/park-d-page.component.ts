@@ -17,6 +17,7 @@ export class ParkDPageComponent implements OnInit {
 
 
   constructor(private parkdService: ParkdService) {
+    this.parkdService.resetUser();
 
   }
 
