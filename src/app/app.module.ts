@@ -11,6 +11,7 @@ import { AppRoutingModule } from './/app-routing.module';
 import { ParkSimulationPageComponent } from './park-simulation-page/park-simulation-page.component';
 import { ParkDPageComponent } from './park-d-page/park-d-page.component';
 import { ExitRequestComponent } from './exit-request/exit-request.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { ExitRequestComponent } from './exit-request/exit-request.component';
     BrowserModule,
     MaterialModule,
     FormsModule,
+    HttpClientModule,
     AppRoutingModule
   ],
   providers: [ParkdService],
