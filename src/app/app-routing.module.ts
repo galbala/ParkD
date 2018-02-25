@@ -4,7 +4,7 @@ import { ParkSimulationPageComponent } from './park-simulation-page/park-simulat
 import { ParkDPageComponent } from './park-d-page/park-d-page.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/simulation', pathMatch: 'full' },
+  { path: '', redirectTo: '/parkd', pathMatch: 'full' },
   { path: 'simulation', component: ParkSimulationPageComponent },
   { path: 'parkd', component: ParkDPageComponent }
 ];

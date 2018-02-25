@@ -25,6 +25,9 @@ export class ParkSimulationPageComponent implements OnInit {
 
   //ngOnInit() {
   //}
+  get userState() {
+    return this.parkdService.userState;
+  }
 
   onGetIn(parkId: number){
     this.parkdService.getIn(parkId);
