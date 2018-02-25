@@ -8,7 +8,7 @@
       </div>
       
       <div *ngIf="userState==2"> <!-- exit -->
-              <app-exit-request [parkingLotToExit]="parkingLotToExitFrom"></app-exit-request>
+              <app-exit-request [parkingLotToExit]="parkingLotToExitFrom" (exitFromParking)="onExitFromParking($event)"></app-exit-request>
       </div>
       
 </div>

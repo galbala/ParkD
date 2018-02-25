@@ -1,18 +1,26 @@
 import { Injectable } from '@angular/core';
 import { ParkingLot } from './model/parking-lot';
 import { ParkingUser } from './model/parking-user';
+<<<<<<< HEAD
 import { UserAction, ActionType } from './model/user-action';
+=======
+import { HttpClient } from '@angular/common/http';
+
+import 'rxjs/add/operator/toPromise';
+
+>>>>>>> dea428e38a63a7e93b5ed534b41d42191c007339
 
 @Injectable()
 export class ParkdService {
 
    userState: UserStateType;
   private userId: number = null;
-  private parkingLotList: ParkingLot[];
+  private parkingLotList: ParkingLot[] = [];
   private parkingUserList: ParkingUser[];
   private userActionList: UserAction[];
    parkingLotToExitFrom: ParkingLot;
 
+<<<<<<< HEAD
    
 
   constructor() { 
@@ -21,6 +29,9 @@ export class ParkdService {
       {id:2, name: 'חניון דרום', totalPlaces:100, freePlaces: 0, reservedPlaces:2, aboutToBeFreePlaces:1},
       {id:3, name: 'חניון עבודה סוציאלית', totalPlaces:200, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:1},
     ];
+=======
+  constructor(private http: HttpClient) { 
+>>>>>>> dea428e38a63a7e93b5ed534b41d42191c007339
 
     this.parkingUserList = [
       {parkId:1, userId: 1003},
@@ -64,7 +75,9 @@ export class ParkdService {
     return this.parkingLotList.find(x => x.id == parkId);
   }
   
-  getParkingList(): ParkingLot [] {
+  async getParkingList(): Promise<ParkingLot[]> {
+    var response = await this.http.get("/api/getParkingLots").toPromise(); 
+    this.parkingLotList = response as ParkingLot[];
     return this.parkingLotList;
   }
 
@@ -86,6 +99,11 @@ export class ParkdService {
     this.userActionList.push(userAction);
 
     alert ("שוריין עבורך " + parkingLot.name);
+
+  }
+
+  exitFromParking(parkingLot: ParkingLot){
+    alert ("יוצא מחניון: " + parkingLot.name + "\n" + "מס עובד: " + this.userId);
 
   }
 }
