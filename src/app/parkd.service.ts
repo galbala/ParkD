@@ -9,6 +9,7 @@ export class ParkdService {
   private userId: number = null;
   private parkingLotList: ParkingLot[];
   private parkingUserList: ParkingUser[];
+   parkingLotToExitFrom: ParkingLot;
 
   constructor() { 
     this.parkingLotList = [
@@ -27,19 +28,31 @@ export class ParkdService {
       {parkId:3, userId: 3003},
     ];
 
+    this.parkingLotToExitFrom = null;
     this.setUserState();
-
   }
  
+  
+
   private setUserState() {
+    var parkingUser: ParkingUser;
     if (this.userId == null)
       this.userState = UserStateType.notExist;
-    else if (this.parkingUserList.find(x => x.userId == this.userId) != null)
-      this.userState = UserStateType.exit;
-    else
+    else{
+      parkingUser = this.parkingUserList.find(x => x.userId == this.userId);
+      if (parkingUser != null){
+        this.userState = UserStateType.exit;
+        this.parkingLotToExitFrom = this.getParkingLotById(parkingUser.parkId);
+      }
+      else
       this.userState = UserStateType.enter;
+    }
   }
 
+  private getParkingLotById(parkId: number): ParkingLot {
+    return this.parkingLotList.find(x => x.id == parkId);
+  }
+  
   getParkingList(): ParkingLot [] {
     return this.parkingLotList;
   }

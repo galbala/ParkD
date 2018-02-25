@@ -12,7 +12,7 @@ export class ParkDPageComponent implements OnInit {
   parkingLotStatusList: ParkingLot[];
 
   get parkingLotToExitFrom(): ParkingLot {
-    return this.parkingLotStatusList[0];
+    return this.parkdService.parkingLotToExitFrom;
   }
 
 
