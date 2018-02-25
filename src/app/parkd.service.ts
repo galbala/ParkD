@@ -47,14 +47,25 @@ export class ParkdService {
     if (this.userId == null)
       this.userState = UserStateType.notExist;
     else{
-      parkingUser = this.parkingUserList.find(x => x.userId == this.userId);
-      if (parkingUser != null){
+      this.parkingLotToExitFrom = this.parkingLotForUserExitAction(this.userId);
+      
+      if (this.parkingLotToExitFrom != null)
         this.userState = UserStateType.exit;
-        this.parkingLotToExitFrom = this.getParkingLotById(parkingUser.parkId);
-      }
       else
-      this.userState = UserStateType.enter;
+        this.userState = UserStateType.enter;
     }
+  }
+
+  private parkingLotForUserExitAction(userId: number): ParkingLot {
+    var parkingUser: ParkingUser;
+    parkingUser = this.parkingUserList.find(x => x.userId == userId);
+    if (parkingUser != null){
+      this.userState = UserStateType.exit;
+      return this.getParkingLotById(parkingUser.parkId);
+    }
+    else
+      return null;
+
   }
 
   private getParkingLotById(parkId: number): ParkingLot {
