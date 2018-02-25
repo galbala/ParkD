@@ -1,3 +1,6 @@
-<p>
-  park-simulation-page works!
-</p>
+
+
+<div class="simulate" *ngFor = "let parkingLotStatus of parkingLotStatusList" >
+    <app-park-simulate [parkingLot]="parkingLotStatus" (getIn)="onGetIn($event)"  (getOut)="onGetOut($event)"></app-park-simulate>
+</div>
+

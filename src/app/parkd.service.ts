@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ParkingLot } from './model/parking-lot';
 import { ParkingUser } from './model/parking-user';
+import { UserAction, ActionType } from './model/user-action';
 import { HttpClient } from '@angular/common/http';
 
 import 'rxjs/add/operator/toPromise';
@@ -13,6 +14,7 @@ export class ParkdService {
   private userId: number = null;
   private parkingLotList: ParkingLot[] = [];
   private parkingUserList: ParkingUser[];
+  private userActionList: UserAction[];
    parkingLotToExitFrom: ParkingLot;
 
   constructor(private http: HttpClient) { 
@@ -27,6 +29,13 @@ export class ParkdService {
       {parkId:3, userId: 3003},
     ];
 
+    this.userActionList = [
+      {id: 1, userId: 4001, parkId: 1, actionType: ActionType.enter, actionTime: new Date() },
+      {id: 1, userId: 4002, parkId: 1, actionType: ActionType.exit, actionTime: new Date() },
+      {id: 1, userId: 4003, parkId: 2, actionType: ActionType.exit, actionTime: new Date() },
+      {id: 1, userId: 4004, parkId: 2, actionType: ActionType.exit, actionTime: new Date() },
+      {id: 1, userId: 4005, parkId: 3, actionType: ActionType.exit, actionTime: new Date() },
+    ];
     this.parkingLotToExitFrom = null;
     this.setUserState();
   }
@@ -65,7 +74,17 @@ export class ParkdService {
   }
 
   reserveParking(parkingLot: ParkingLot){
-    alert ("משריין לך את חניון " + parkingLot.name);
+    const userAction: UserAction = {
+        id: 1,
+        userId: this.userId,
+        parkId: parkingLot.id,
+        actionType: ActionType.enter,
+        actionTime: new Date()
+    };
+    
+    this.userActionList.push(userAction);
+
+    alert ("שוריין עבורך " + parkingLot.name);
 
   }
 
@@ -73,6 +92,16 @@ export class ParkdService {
     alert ("יוצא מחניון: " + parkingLot.name + "\n" + "מס עובד: " + this.userId);
 
   }
+
+  getOut(parkId: number){
+    alert("יצאת מהחניון "+ parkId);
+  }
+
+  getIn(parkId: number){
+    alert("נכנסת לחניון " + parkId);
+  }
+
+
 }
 
 export enum UserStateType {
