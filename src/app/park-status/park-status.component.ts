@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ParkingLot } from '../model/parking-lot';
 
 @Component({
@@ -8,13 +8,14 @@ import { ParkingLot } from '../model/parking-lot';
 })
 export class ParkStatusComponent implements OnInit {
   @Input() parkingLot: ParkingLot;
+  @Output() reserveParking: EventEmitter<void> = new EventEmitter<void>();
   constructor() { }
 
   ngOnInit() {
     console.log(JSON.stringify(this.parkingLot)) ; }
 
   reserve() {
-    alert('reserve');
+    this.reserveParking.emit();
   }
 
 }
