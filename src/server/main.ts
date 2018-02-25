@@ -17,7 +17,7 @@ app.get("/api/getParkingLots", wrap(async function() {
  app.get("/api/getParkingLotToExitFrom/:userId", wrap(async function() {
      //console.log("************XXXXXXXXXXXXXXXXXXXXXXXXXXX*****");
      //let userId = req.params.userId;
-     //console.log("*****************",userId);
+     console.log("*****************");
      return await getParkingLotToExitFrom(1);
  })) 
 
@@ -42,5 +42,5 @@ function wrap(fn){
 }
 
 app.listen(3001, function(){
-    console.log("Server is running11");
+    console.log("Server is running");
 });

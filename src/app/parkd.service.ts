@@ -57,7 +57,7 @@ export class ParkdService {
   }
 
   private async getParkingLotToExitFrom(userId: number): Promise<ParkingLot> {
-    var response = await this.http.get("/api/getParkingLotToExitFrom?userId="+userId).toPromise(); 
+    var response = await this.http.get("/api/getParkingLotToExitFrom/"+userId).toPromise(); 
     return response as ParkingLot;    
   }
 
