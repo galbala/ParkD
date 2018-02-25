@@ -8,15 +8,12 @@ import {FormsModule } from '@angular/forms';
   styleUrls: ['./user-auth.component.css']
 })
 export class UserAuthComponent implements OnInit {
-
-
   userId: number;
 
   constructor(private parkdService: ParkdService) { }
 
   ngOnInit() {
   }
-
 
   confirmUser() {
     this.parkdService.setUserAuth(this.userId);

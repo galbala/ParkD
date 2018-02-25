@@ -1,12 +1,38 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
+* {
+    font-family: openSansHebrew !important;
+}
+
+i {
+    font-family: 'Material Icons' !important;
+}
+
 body{
     margin:0;
-    font-family: openSansHebrew;
 }
 
 @font-face {
     font-family: openSansHebrew;
     src: url('/assets/fonts/OpenSansHebrew-Regular.ttf');
+}
+
+/* Let's get this party started */
+::-webkit-scrollbar {
+    width: 7px;
+}
+ 
+/* Track */
+::-webkit-scrollbar-track {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: gray;
+}
+::-webkit-scrollbar-thumb:window-inactive {
+	background: gray; 
 }

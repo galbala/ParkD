@@ -1,0 +1,51 @@
+.card-container {
+    margin: 20px;
+    font-family: openSansHebrew;
+}
+
+.card-container mat-card {
+    padding: 0px;
+    width: 40%;
+    margin: 0 auto;
+    text-align: center;
+    background: #eaeaea;
+    height: 90px;
+}
+
+.parking-lot-name {
+    height:90px;
+    float: right;
+    font-size:20px;
+    font-weight: bold;
+    width: 45%;
+    text-align: right;
+    margin-right: 20px;
+    margin-top: 20px;
+}
+
+.status-section {
+    text-align: right;
+    display: inline-block;
+    width:40%;
+    margin-top: 20px;
+}
+
+.parking-lot-status {
+    
+}
+
+.parking-lot-about-to-be-free {
+    font-size: 14px;
+    color: gray;
+}
+
+.reserve-btn {
+    display: inline-block;
+    float: left;
+    width:10%;
+}
+
+.reserve-btn button {
+    height:90px;
+    float:left;
+}

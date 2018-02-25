@@ -1,6 +1,10 @@
-<div>
-  {{parkingLotToExit.id}} - {{parkingLotToExit.name}}
-  <div>
-      <button mat-raised-button color="primary" (click)="exitFromParkingClicked()" >מפנה</button>
-    </div>
-</div>
+<div class="card-container">
+    <mat-card>
+      <div class="parking-lot-name">
+        {{parkingLotToExit.name}}
+      </div>
+      <div class="exit-btn">
+        <button mat-raised-button color="primary" (click)="exitFromParkingClicked()" >פינוי חניה</button>
+      </div>
+    </mat-card>
+  </div>

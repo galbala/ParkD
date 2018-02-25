@@ -1,15 +1,17 @@
 .card-container {
     margin: 20px;
+    margin-bottom: 40px;
 }
 
 .card-container mat-card {
-    width: 40%;
+    width: 20%;
     margin: 0 auto;
     text-align: center;
     background: #eaeaea;
+
 }
 .example-form-field {
-    width: 250px;
+    width: 300px;
     margin-left: 10px;
 }
 
