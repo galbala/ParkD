@@ -3,12 +3,12 @@
        
         <div *ngIf="userState==1">  <!-- enter -->
             <div *ngFor = "let parkingLotStatus of parkingLotStatusList" >
-                <app-park-status [parkingLot]="parkingLotStatus"></app-park-status>
+                <app-park-status [parkingLot]="parkingLotStatus" (reserveParking)="onReserveParking($event)"></app-park-status>
             </div>
       </div>
       
       <div *ngIf="userState==2"> <!-- exit -->
-              <app-exit-request [parkingLotToExit]="parkingLotToExitFrom"></app-exit-request>
+              <app-exit-request [parkingLotToExit]="parkingLotToExitFrom" (exitFromParking)="onExitFromParking($event)"></app-exit-request>
       </div>
       
 </div>

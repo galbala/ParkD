@@ -1,5 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ParkingLot } from '../model/parking-lot';
+
 
 @Component({
   selector: 'app-exit-request',
@@ -10,13 +12,15 @@ export class ExitRequestComponent implements OnInit {
 
 
   @Input() parkingLotToExit: ParkingLot;
-
+  @Output() exitFromParking: EventEmitter<ParkingLot> = new EventEmitter<ParkingLot>();
+  
   constructor() { }
 
   ngOnInit() {
   }
 
-  exit() {
+  exitFromParkingClicked() {
+    this.exitFromParking.emit(this.parkingLotToExit);
   }
 
 }

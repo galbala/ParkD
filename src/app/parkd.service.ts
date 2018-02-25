@@ -63,7 +63,15 @@ export class ParkdService {
     console.log(this.userId);
   }
 
+  reserveParking(parkingLot: ParkingLot){
+    alert ("משריין לך את חניון " + parkingLot.name);
 
+  }
+
+  exitFromParking(parkingLot: ParkingLot){
+    alert ("יוצא מחניון " + parkingLot.name);
+
+  }
 }
 
 export enum UserStateType {
