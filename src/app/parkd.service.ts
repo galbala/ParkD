@@ -69,7 +69,7 @@ export class ParkdService {
   }
 
   exitFromParking(parkingLot: ParkingLot){
-    alert ("יוצא מחניון " + parkingLot.name);
+    alert ("יוצא מחניון: " + parkingLot.name + "\n" + "מס עובד: " + this.userId);
 
   }
 }
