@@ -97,12 +97,35 @@ export class ParkdService {
 
   }
 
-  getOut(parkId: number){
-    alert(this.userId + " יצאת מהחניון "+ parkId);
+  async getOut(parkId: number){
+    alert(this.userId + " יצאת מחניון "+ parkId);
+    // try{
+    //     await this.http.post("/api/getOut", 
+    //                           {userId: this.userId, 
+    //                             parkId: parkId}
+    //     ).toPromise();
+        
+    // }
+    // catch (err){
+    //   console.log(err);
+    // }
+
   }
 
-  getIn(parkId: number){
+
+  async getIn(parkId: number){
     alert(this.userId + " נכנסת לחניון " + parkId);
+    // try{
+    //   await this.http.post("/api/getIn", 
+    //                         {userId: this.userId, 
+    //                          parkId: parkId}
+    //   ).toPromise();
+      
+    // }
+    // catch (err){
+    //   console.log(err);
+    // }
+    
   }
 
 
