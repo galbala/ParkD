@@ -8,15 +8,14 @@ import { ParkingLot } from '../model/parking-lot';
 })
 export class ParkStatusComponent implements OnInit {
   @Input() parkingLot: ParkingLot;
-  @Output() reserveParking: EventEmitter<void> = new EventEmitter<void>();
+  @Output() reserveParking: EventEmitter<ParkingLot> = new EventEmitter<ParkingLot>();
   constructor() { }
 
   ngOnInit() {
     console.log(JSON.stringify(this.parkingLot)) ; }
 
   reserve() {
-    console.log("this.reserveParking.emit();");
-    this.reserveParking.emit();
+    this.reserveParking.emit(this.parkingLot);
   }
 
 }

@@ -3,7 +3,7 @@
        
         <div *ngIf="userState==1">  <!-- enter -->
             <div *ngFor = "let parkingLotStatus of parkingLotStatusList" >
-                <app-park-status [parkingLot]="parkingLotStatus" (reserveParking)="onReserveParking()"></app-park-status>
+                <app-park-status [parkingLot]="parkingLotStatus" (reserveParking)="onReserveParking($event)"></app-park-status>
             </div>
       </div>
       
