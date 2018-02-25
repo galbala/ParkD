@@ -74,7 +74,7 @@ export class ParkdService {
   setUserAuth(id: number) {
     this.userId = id;
     this.setUserState();
-    console.log(this.userId);
+    console.log(this.userId + " , " + this.userState);
   }
 
   reserveParking(parkingLot: ParkingLot){
@@ -98,11 +98,11 @@ export class ParkdService {
   }
 
   getOut(parkId: number){
-    alert("יצאת מהחניון "+ parkId);
+    alert(this.userId + " יצאת מהחניון "+ parkId);
   }
 
   getIn(parkId: number){
-    alert("נכנסת לחניון " + parkId);
+    alert(this.userId + " נכנסת לחניון " + parkId);
   }
 
 
