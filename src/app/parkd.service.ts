@@ -67,6 +67,11 @@ export class ParkdService {
     alert ("משריין לך את חניון " + parkingLot.name);
 
   }
+
+  exitFromParking(parkingLot: ParkingLot){
+    alert ("יוצא מחניון " + parkingLot.name);
+
+  }
 }
 
 export enum UserStateType {

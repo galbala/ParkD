@@ -33,7 +33,7 @@ export class ParkDPageComponent implements OnInit {
   }
 
   onExitFromParking(parkingLotToExit: ParkingLot){
-    alert("exit from parking: " + parkingLotToExit.name);
+    this.parkdService.exitFromParking(parkingLotToExit);
   }
 
 }
