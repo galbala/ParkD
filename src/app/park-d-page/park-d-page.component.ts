@@ -17,11 +17,12 @@ export class ParkDPageComponent implements OnInit {
 
 
   constructor(private parkdService: ParkdService) {
-    this.parkingLotStatusList = parkdService.getParkingList();
+
   }
 
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.parkingLotStatusList = await this.parkdService.getParkingList();
   }
 
   get userState() {

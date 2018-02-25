@@ -1,5 +1,5 @@
 import * as express from "express";
-import { getParkingLots } from "./controller/parking-lot-controller";
+import { getParkingLots } from "./dal/parking-lot-dal";
 
 const app = express();
 
@@ -26,6 +26,6 @@ function wrap(fn){
     }
 }
 
-app.listen(3000, function(){
+app.listen(3001, function(){
     console.log("Server is running");
 });

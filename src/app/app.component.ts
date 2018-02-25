@@ -14,7 +14,7 @@ export class AppComponent {
   parkingLotStatusList: ParkingLot[];
 
   constructor(private parkdService: ParkdService, private router: Router) {
-    this.parkingLotStatusList = parkdService.getParkingList();
+    // this.parkingLotStatusList = parkdService.getParkingList();
   }
 
   navigate(path: string) {
