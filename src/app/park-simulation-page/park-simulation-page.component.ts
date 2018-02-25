@@ -16,11 +16,15 @@ export class ParkSimulationPageComponent implements OnInit {
   }
 
   constructor(private parkdService: ParkdService) { 
-    this.parkingLotStatusList = parkdService.getParkingList();
+    //this.parkingLotStatusList = parkdService.getParkingList();
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.parkingLotStatusList = await this.parkdService.getParkingList();
   }
+
+  //ngOnInit() {
+  //}
 
   onGetIn(parkId: number){
     this.parkdService.getIn(parkId);
