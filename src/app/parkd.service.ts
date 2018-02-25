@@ -72,6 +72,16 @@ export class ParkdService {
     alert ("יוצא מחניון " + parkingLot.name);
 
   }
+
+  getOut(parkId: number){
+    alert("יצאת מהחניון "+ parkId);
+  }
+
+  getIn(parkId: number){
+    alert("נכנסת לחניון " + parkId);
+  }
+
+
 }
 
 export enum UserStateType {

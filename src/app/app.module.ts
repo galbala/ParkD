@@ -11,6 +11,7 @@ import { AppRoutingModule } from './/app-routing.module';
 import { ParkSimulationPageComponent } from './park-simulation-page/park-simulation-page.component';
 import { ParkDPageComponent } from './park-d-page/park-d-page.component';
 import { ExitRequestComponent } from './exit-request/exit-request.component';
+import { ParkSimulateComponent } from './park-simulate/park-simulate.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { ExitRequestComponent } from './exit-request/exit-request.component';
     ParkStatusComponent,
     ParkSimulationPageComponent,
     ParkDPageComponent,
-    ExitRequestComponent
+    ExitRequestComponent,
+    ParkSimulateComponent
   ],
   imports: [
     BrowserModule,
