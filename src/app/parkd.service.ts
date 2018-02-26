@@ -78,11 +78,7 @@ export class ParkdService {
   async getParkingList(){
     var response = await this.http.get("/api/getParkingLots").toPromise(); 
     this.parkingLotList = response as ParkingLot[];
-<<<<<<< HEAD
     
-=======
-    return this.parkingLotList;
->>>>>>> 93a291ed0a9cf2841a2484d593cbf00c5f17dbcc
   }
 
   setUserAuth(id: number) {
