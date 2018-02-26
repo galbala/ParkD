@@ -50,7 +50,7 @@ app.get(
   wrap(async function(req) {
     const barrierInput = JSON.parse(req.params.barrierInput);
     console.log("getOut " + req.params);
-    return await gateEnter(barrierInput.userId, barrierInput.parkId);
+    return await gateExit(barrierInput.userId, barrierInput.parkId);
   })
 );
 
@@ -59,7 +59,7 @@ app.get(
   wrap(async function(req) {
     const barrierInput = JSON.parse(req.params.barrierInput);
     console.log("getIn " + req.params);
-    return await gateExit(barrierInput.userId, barrierInput.parkId);
+    return await gateEnter(barrierInput.userId, barrierInput.parkId);
   })
 );
 //end simulations functions

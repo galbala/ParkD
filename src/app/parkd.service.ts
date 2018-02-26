@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material';
 import { InfoDialogComponent } from './info-dialog/info-dialog.component';
 
 
+
 @Injectable()
 export class ParkdService {
 
@@ -76,6 +77,7 @@ export class ParkdService {
   async getParkingList(): Promise<ParkingLot[]> {
     var response = await this.http.get("/api/getParkingLots").toPromise(); 
     this.parkingLotList = response as ParkingLot[];
+    console.log(this.parkingLotList);
     return this.parkingLotList;
   }
 
@@ -157,6 +159,17 @@ export class ParkdService {
   }
 
 
+  showErrDialog(message: string, error: any){
+
+    var fullMsg:string = message + "  " + error;
+
+    let dialogRef = this.dialog.open(InfoDialogComponent, {
+      width: '430px',
+      disableClose: true,
+      data: { errorMsg: fullMsg }
+    });
+  }
+
   async getIn(parkingLot: ParkingLot){
     let dialogRef = this.dialog.open(InfoDialogComponent, {
       width: '430px',
@@ -174,8 +187,9 @@ export class ParkdService {
     try{
       await this.http.get("/api/getIn/"+JSON.stringify(barrierInput)).toPromise(); 
     }
-    catch (err){
+    catch(err){
       console.log(err);
+      this.showErrDialog("שגיאה בהוספת עובד לחניון", err);
     }
     
   }
