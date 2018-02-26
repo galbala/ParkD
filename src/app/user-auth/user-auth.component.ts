@@ -9,10 +9,19 @@ import {FormsModule } from '@angular/forms';
 })
 export class UserAuthComponent implements OnInit {
   userId: number;
-
+  
   constructor(private parkdService: ParkdService) { }
 
   ngOnInit() {
+  }
+
+  get userName(){
+    if(this.parkdService.userName == null){
+      return "מס' עובד לא נמצא";
+    }
+    else{
+      return this.parkdService.userName;
+    }
   }
 
   confirmUser() {
