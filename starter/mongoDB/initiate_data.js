@@ -16,6 +16,8 @@ async function main() {
     const parkingLotList = db.collection("parkingLotList");
     const userActionList = db.collection("userActionList");
     const userList = db.collection("userList");
+    const parkingUserList = db.collection("parkingUserList");
+    
 
     await parkingLotList.removeAsync();
     console.log("parkingLotList Remove");
@@ -48,6 +50,14 @@ async function main() {
         {userId: 5000, userName: "דורון"}
     ]);
     console.log("userList insertMany");
+
+    await parkingUserList.removeAsync();
+    console.log("parkingUserList Remove");
+    await parkingUserList.insertManyAsync([
+        {parkId:1, userId: 1000},
+        {parkId:2, userId: 2000},
+      ]);
+    console.log("parkingUserList insertMany");
 
     console.log("Closing");
     client.close();
