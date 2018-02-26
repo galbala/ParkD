@@ -7,7 +7,12 @@ if (command == 'start') {
 
 function start() {
 
-    spawn("md mongo-db & \"C:\\mongodb\\bin\\mongod.exe\"", [ 
+    const mongoPath = process.env.MONGO_PATH;
+    if (!mongoPath) {
+        throw new Error("MONGO_PATH is empty")
+      }
+    
+    spawn("md mongo-db & \""+mongoPath+"\\mongod.exe\"", [ 
         " --dbpath mongo-db "
     ] , {
         shell: true,
