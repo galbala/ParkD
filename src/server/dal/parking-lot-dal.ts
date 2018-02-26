@@ -53,7 +53,6 @@ export async function enterParkingLot(userId : number, parkId : number ) {
 export async function getParkingLotToExitFrom(userId: number) {
     var parkingUser: ParkingUser;
     parkingUser = this.parkingUserList.find(x => x.userId == userId);
-    //console.log("*****************",parkingUser);
     if (parkingUser != null)
       return this.getParkingLotById(parkingUser.parkId);
     else
