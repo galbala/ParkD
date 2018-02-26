@@ -85,9 +85,6 @@ export async function getParkingLotToExitFrom(currentUserId: number) {
     return null;
 }
 
-
-
-
 export function addUserAction(userAction: UserAction) {
   this.userActionList.push(userAction);//todo DB
 
@@ -106,7 +103,6 @@ function getUserAction(userId: number, actionType: ActionType): UserAction
   var foundAction = this.userActionList.find(x => x.userId == userId && x.actionType == actionType);
   return foundAction;
 }
-
 
 function setParkingLot(parkingLot: ParkingLot)
 {
@@ -179,7 +175,6 @@ export function gateEnter(userId: number, parkId: number): EnterReqResultType
   }
   return enterResult;
 }
-
 
 export function gateExit(userId: number, parkId: number): ExitReqResultType 
 {
