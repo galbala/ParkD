@@ -6,16 +6,17 @@ import * as mongodb from "mongodb";
 import { ParkingLot  } from "../../app/model/parking-lot";
 
 mongodb.Cursor.prototype.toArrayAsync = promisify(mongodb.Cursor.prototype.toArray);
+mongodb.Collection.prototype.findAsync = promisify(mongodb.Collection.prototype.find);
 
 let client;
 let db;
 const connect: (url: string)=>Promise<any> = promisify(mongodb.MongoClient.connect);
 
 
-this.parkingUserList = [
-    {parkId:1, userId: 1000},
-    {parkId:2, userId: 2000},
-  ];
+// this.parkingUserList = [
+//     {parkId:1, userId: 1000},
+//     {parkId:2, userId: 2000},
+//   ];
 
 // this.parkingLotList = [
 //     {id:1, name: 'חניון עובדים', totalPlaces:300, freePlaces: 10, reservedPlaces:0, aboutToBeFreePlaces:0, waitingToEnter: 0  },
@@ -32,14 +33,13 @@ this.userActionList = [
   {id: 1, userId: 5000, parkId: 3, actionType: ActionType.exit, actionTime: new Date() },
 ];
 
-this.userList = [
-  {userId: 1000, userName: "אודליה"},
-  {userId: 2000, userName: "נועה"},
-  {userId: 3000, userName: "אורלי"},
-  {userId: 4000, userName: "גל"},
-  {userId: 5000, userName: "דורון"}
-];
-
+// this.userList = [
+//   {userId: 1000, userName: "אודליה"},
+//   {userId: 2000, userName: "נועה"},
+//   {userId: 3000, userName: "אורלי"},
+//   {userId: 4000, userName: "גל"},
+//   {userId: 5000, userName: "דורון"}
+// ];
 
 export async function getParkingLots() {
   client = await connect("mongodb://localhost:27017");
@@ -47,28 +47,45 @@ export async function getParkingLots() {
   const parkingLotList = db.collection("parkingLotList");
   const parkingLots = await parkingLotList.find({}).toArrayAsync();
   client.close();
+
   return parkingLots;
 }
 
 export async function getUserList() {
-  return this.userList;
+  client = await connect("mongodb://localhost:27017");
+  db = client.db("parkD");
+  const usersList = db.collection("userList");
+  const users = await usersList.find({}).toArrayAsync();
+  client.close();
+
+  return users;
+}
+
+export async function getParkingLotById(parkingUser) {
+  client = await connect("mongodb://localhost:27017");
+  db = client.db("parkD");
+  const parkingLotList = db.collection("parkingLotList");
+  const parkingLot = await parkingLotList.find({ id: parkingUser.parkId }).toArrayAsync();
+  client.close();
+
+  return parkingLot;
+}
+
+export async function getParkingLotToExitFrom(currentUserId: number) {
+  client = await connect("mongodb://localhost:27017");
+  db = client.db("parkD");
+  const parkingUserList = db.collection("parkingUserList");
+  const parkingUser = await parkingUserList.find({ userId: Number(currentUserId) }).toArrayAsync();
+  client.close();
+  
+  console.log(parkingUser[0]);
+  if (parkingUser != null && parkingUser.length > 0)
+    return this.getParkingLotById(parkingUser[0]);
+  else
+    return null;
 }
 
 
-
-
-export async function getParkingLotToExitFrom(userId: number) {
-    var parkingUser: ParkingUser;
-    parkingUser = this.parkingUserList.find(x => x.userId == userId);
-    if (parkingUser != null)
-      return this.getParkingLotById(parkingUser.parkId);
-    else
-      return null;
-}
-
-export function getParkingLotById(parkId: number) {
-  return this.parkingLotList.find(x => x.id == parkId);
-}
 
 
 export function addUserAction(userAction: UserAction) {
