@@ -13,6 +13,7 @@ export class ParkdService {
 
    userState: UserStateType;
   private userId: number = null;
+  userName: string = null;
   private parkingLotList: ParkingLot[] = [];
   private userList: User[] = [];
 
@@ -35,18 +36,17 @@ export class ParkdService {
     // ];
 
     this.userActionList = [
-      {id: 1, userId: 4001, parkId: 1, actionType: ActionType.enter, actionTime: new Date() },
-      {id: 1, userId: 4002, parkId: 1, actionType: ActionType.exit, actionTime: new Date() },
-      {id: 1, userId: 4003, parkId: 2, actionType: ActionType.exit, actionTime: new Date() },
-      {id: 1, userId: 4004, parkId: 2, actionType: ActionType.exit, actionTime: new Date() },
-      {id: 1, userId: 4005, parkId: 3, actionType: ActionType.exit, actionTime: new Date() },
+      {id: 1, userId: 1000, parkId: 1, actionType: ActionType.enter, actionTime: new Date() },
+      {id: 1, userId: 2000, parkId: 1, actionType: ActionType.exit, actionTime: new Date() },
+      {id: 1, userId: 3000, parkId: 2, actionType: ActionType.exit, actionTime: new Date() },
+      {id: 1, userId: 4000, parkId: 2, actionType: ActionType.exit, actionTime: new Date() },
+      {id: 1, userId: 5000, parkId: 3, actionType: ActionType.exit, actionTime: new Date() },
     ];
     this.parkingLotToExitFrom = null;
     this.setUserState();
   }
  
   public resetUser(){
-    //this.userState = UserStateType.notExist;
     this.userId = null;
     this.setUserState();
   }
@@ -54,15 +54,22 @@ export class ParkdService {
  
   private async setUserState() {
     var parkingUser: ParkingUser;
+
     if (this.userId == null)
       this.userState = UserStateType.notExist;
     else {
-      this.parkingLotToExitFrom = await this.getParkingLotToExitFrom(this.userId);
+      this.userName = this.getUserNameById(this.userId); 
+      if(this.userName == null){
+        this.userState = UserStateType.notExist;
+      }
+      else{
+        this.parkingLotToExitFrom = await this.getParkingLotToExitFrom(this.userId);
       
-      if (this.parkingLotToExitFrom != null)
-        this.userState = UserStateType.exit;
-      else
-        this.userState = UserStateType.enter;
+        if (this.parkingLotToExitFrom != null)
+          this.userState = UserStateType.exit;
+        else
+          this.userState = UserStateType.enter;
+        }
     }
   }
 

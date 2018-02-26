@@ -1,13 +1,8 @@
 import { ParkingUser } from "../../app/model/parking-user";
 
 this.parkingUserList = [
-    {parkId:1, userId: 1003},
-    {parkId:1, userId: 1004},
-    {parkId:1, userId: 1005},
-    {parkId:2, userId: 2001},
-    {parkId:2, userId: 2002},
-    {parkId:3, userId: 3001},
-    {parkId:3, userId: 3003},
+    {parkId:1, userId: 1000},
+    {parkId:2, userId: 2000},
   ];
 
   this.parkingLotList = [
