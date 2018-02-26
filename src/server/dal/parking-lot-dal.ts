@@ -35,6 +35,7 @@ this.userList = [
 
 
 export async function getParkingLots() {
+  
   return this.parkingLotList;
 }
 
@@ -42,18 +43,12 @@ export async function getUserList() {
   return this.userList;
 }
 
-export async function leaveParkingLot(userId : number, parkId : number ) {
-  console.log("leaveParkingLot!! " + userId + ", " + parkId);
-}
 
-export async function enterParkingLot(userId : number, parkId : number ) {
-    console.log("enterParkingLot!! " + userId + ", " + parkId);
-}
+
 
 export async function getParkingLotToExitFrom(userId: number) {
     var parkingUser: ParkingUser;
     parkingUser = this.parkingUserList.find(x => x.userId == userId);
-    //console.log("*****************",parkingUser);
     if (parkingUser != null)
       return this.getParkingLotById(parkingUser.parkId);
     else
@@ -113,7 +108,7 @@ function removeParkingUser(userId: number, parkId: number)
 // todo: add to DB
 }
 
-function gateEnter(userId: number, parkId: number): boolean 
+export function gateEnter(userId: number, parkId: number): boolean 
 {
   var enterResult: boolean = false;
 

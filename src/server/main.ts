@@ -1,8 +1,8 @@
 import * as express from "express";
 import {
   getParkingLots,
-  leaveParkingLot,
-  enterParkingLot,
+  gateEnter,
+  gateExit,
   getParkingLotToExitFrom,
   getUserList,
   addUserAction
@@ -16,7 +16,12 @@ app.listen(3001, function() {
 
 app.get(
   "/api/getParkingLots",
+<<<<<<< HEAD
   wrap(async function(req) {
+=======
+  wrapExpressApi(async function(req) {
+    console.log("****************");
+>>>>>>> 69e262b6c62949c042925d131a10964d1f900c52
     return await getParkingLots();
   })
 );
@@ -50,7 +55,7 @@ app.get(
   wrap(async function(req) {
     const barrierInput = JSON.parse(req.params.barrierInput);
     console.log("getOut " + req.params);
-    return await leaveParkingLot(barrierInput.userId, barrierInput.parkId);
+    return await gateEnter(barrierInput.userId, barrierInput.parkId);
   })
 );
 
@@ -59,7 +64,7 @@ app.get(
   wrap(async function(req) {
     const barrierInput = JSON.parse(req.params.barrierInput);
     console.log("getIn " + req.params);
-    return await enterParkingLot(barrierInput.userId, barrierInput.parkId);
+    return await gateExit(barrierInput.userId, barrierInput.parkId);
   })
 );
 //end simulations functions
