@@ -9,8 +9,8 @@ import { ParkingLot } from '../model/parking-lot';
 export class ParkSimulateComponent implements OnInit {
 
   @Input() parkingLot: ParkingLot;
-  @Output() getIn: EventEmitter<number> = new EventEmitter<number>();
-  @Output() getOut: EventEmitter<number> = new EventEmitter<number>();
+  @Output() getIn: EventEmitter<ParkingLot> = new EventEmitter<ParkingLot>();
+  @Output() getOut: EventEmitter<ParkingLot> = new EventEmitter<ParkingLot>();
 
   constructor()  {
 
