@@ -25,7 +25,7 @@ async function main() {
         {id:1, name: 'חניון עובדים', totalPlaces:300, freePlaces: 10, reservedPlaces:0, aboutToBeFreePlaces:0  , waitingToEnter: 1},
         {id:2, name: 'חניון דרום', totalPlaces:100, freePlaces: 0, reservedPlaces:2, aboutToBeFreePlaces:1, waitingToEnter: 1},
         {id:3, name: 'חניון עבודה סוציאלית', totalPlaces:200, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:1, waitingToEnter: 0},
-        {id:4, name: 'חניון שקר כלשהו', totalPlaces:500, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:1, waitingToEnter: 0},
+        {id:4, name: 'חניון גולפיטק', totalPlaces:500, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:1, waitingToEnter: 0},
     ]);
     console.log("parkingLotList insertMany");
 
@@ -33,7 +33,7 @@ async function main() {
     console.log("userActionList Remove");
     await userActionList.insertManyAsync([
         {userId: 1000, parkId: 1, actionType: 1, actionTime: new Date() },
-        {userId: 2000, parkId: 1, actionType: 2, actionTime: new Date() },
+        {userId: 2000, parkId: 1, actionType: 1, actionTime: new Date() },
         {userId: 3000, parkId: 2, actionType: 2, actionTime: new Date() },
         {userId: 4000, parkId: 2, actionType: 2, actionTime: new Date() },
         {userId: 5000, parkId: 3, actionType: 2, actionTime: new Date() },
