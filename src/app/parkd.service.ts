@@ -48,6 +48,7 @@ export class ParkdService {
  
   public resetUser(){
     this.userId = null;
+    this.userName = null;
     this.setUserState();
   }
 
@@ -55,8 +56,10 @@ export class ParkdService {
   private async setUserState() {
     var parkingUser: ParkingUser;
 
-    if (this.userId == null)
+    if (this.userId == null){
       this.userState = UserStateType.notExist;
+      this.userName = "";
+    }
     else {
       this.userName = this.getUserNameById(this.userId); 
       if(this.userName == null){

@@ -20,7 +20,7 @@ export class UserAuthComponent implements OnInit {
       return "מס' עובד לא נמצא";
     }
     else{
-      return "שלום " + this.parkdService.userName;
+      return this.parkdService.userName;
     }
   }
 
