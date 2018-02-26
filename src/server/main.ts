@@ -1,5 +1,6 @@
 import * as express from "express";
-import { getParkingLots, leaveParkingLot, enterParkingLot, getParkingLotToExitFrom } from "./dal/parking-lot-dal";
+import { getParkingLots, leaveParkingLot, enterParkingLot, getParkingLotToExitFrom, addUserAction } from "./dal/parking-lot-dal";
+import { UserAction } from "../app/model/user-action";
 
 
 const app = express();
@@ -24,6 +25,14 @@ app.post("/api/getIn", async function(req, res) {
      let userId = req.params.userId;
      return await getParkingLotToExitFrom(userId);
  })) 
+
+ 
+
+ app.get("/api/addUserAction/:userAction", wrap(async function(req) {
+    const userAction = JSON.parse(req.params.userAction);
+    return await addUserAction(userAction);
+})) 
+
 
 
 function wrap(fn){

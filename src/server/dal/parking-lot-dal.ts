@@ -1,4 +1,5 @@
 import { ParkingUser } from "../../app/model/parking-user";
+import { UserAction, ActionType } from "../../app/model/user-action";
 
 this.parkingUserList = [
     {parkId:1, userId: 1003},
@@ -15,6 +16,14 @@ this.parkingUserList = [
     {id:2, name: 'חניון דרום', totalPlaces:100, freePlaces: 0, reservedPlaces:2, aboutToBeFreePlaces:1},
     {id:3, name: 'חניון עבודה סוציאלית', totalPlaces:200, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:1},
     {id:4, name: 'חניון שקר כלשהו', totalPlaces:500, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:1},
+];
+
+this.userActionList = [
+  {id: 1, userId: 4001, parkId: 1, actionType: ActionType.enter, actionTime: new Date() },
+  {id: 1, userId: 4002, parkId: 1, actionType: ActionType.exit, actionTime: new Date() },
+  {id: 1, userId: 4003, parkId: 2, actionType: ActionType.exit, actionTime: new Date() },
+  {id: 1, userId: 4004, parkId: 2, actionType: ActionType.exit, actionTime: new Date() },
+  {id: 1, userId: 4005, parkId: 3, actionType: ActionType.exit, actionTime: new Date() },
 ];
 
 export async function getParkingLots() {
@@ -50,4 +59,11 @@ export async function getParkingLotToExitFrom(userId: number) {
 
 export function getParkingLotById(parkId: number) {
   return this.parkingLotList.find(x => x.id == parkId);
+}
+
+
+export function addUserAction(userAction: UserAction) {
+  this.userActionList.push(userAction);
+  let parkingLot = this.getParkingLotById(userAction.parkId);
+  return "שוריין עבורך " + parkingLot.name;
 }
