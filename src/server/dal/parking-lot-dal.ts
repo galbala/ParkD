@@ -1,22 +1,26 @@
 import { ParkingUser } from "../../app/model/parking-user";
 import { UserAction, ActionType } from "../../app/model/user-action";
+<<<<<<< HEAD
 import { promisify } from '../helpers/helpers';
 // import * as mongodb from "mongodb";
 
+=======
+import { ParkingLot  } from "../../app/model/parking-lot";
+>>>>>>> bcd9390658894ebe6ad86957837938cb55d733c0
 
 this.parkingUserList = [
     {parkId:1, userId: 1000},
     {parkId:2, userId: 2000},
   ];
 
-  this.parkingLotList = [
-    {id:1, name: 'חניון עובדים', totalPlaces:300, freePlaces: 10, reservedPlaces:0, aboutToBeFreePlaces:0  },
-    {id:2, name: 'חניון דרום', totalPlaces:100, freePlaces: 0, reservedPlaces:2, aboutToBeFreePlaces:1},
-    {id:3, name: 'חניון עבודה סוציאלית', totalPlaces:200, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:1},
-    {id:4, name: 'חניון שקר כלשהו', totalPlaces:500, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:1},
+  var parkingLotList: ParkingLot[] = [
+    {id:1, name: 'חניון עובדים', totalPlaces:300, freePlaces: 10, reservedPlaces:0, aboutToBeFreePlaces:0, waitingToEnter: 0  },
+    {id:2, name: 'חניון דרום', totalPlaces:100, freePlaces: 0, reservedPlaces:2, aboutToBeFreePlaces:1, waitingToEnter: 0},
+    {id:3, name: 'חניון עבודה סוציאלית', totalPlaces:200, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:1, waitingToEnter: 0},
+    {id:4, name: 'חניון שקר כלשהו', totalPlaces:500, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:1, waitingToEnter: 0},
 ];
 
-this.userActionList = [
+var userActionList: UserAction[] = [
   {id: 1, userId: 1000, parkId: 1, actionType: ActionType.enter, actionTime: new Date() },
   {id: 1, userId: 2000, parkId: 1, actionType: ActionType.exit, actionTime: new Date() },
   {id: 1, userId: 3000, parkId: 2, actionType: ActionType.exit, actionTime: new Date() },
@@ -67,5 +71,99 @@ export function getParkingLotById(parkId: number) {
 export function addUserAction(userAction: UserAction) {
   this.userActionList.push(userAction);
   let parkingLot = this.getParkingLotById(userAction.parkId);
-  return "שוריין עבורך " + parkingLot.name;
+  return parkingLot.name;
+}
+
+function getUserAction(userId: number, actionType: ActionType): UserAction
+{
+  var foundAction = this.userActionList.find(x => x.userId == userId && x.actionType == actionType);
+  return foundAction;
+}
+
+
+function setParkingLot(parkingLot: ParkingLot)
+{
+// todo: save in DB
+}
+
+function removeUserAction(userAction: UserAction)
+{
+// todo: save in DB
+}
+
+function addParkingUser(userId: number, parkId: number)
+{
+// todo: add to DB
+}
+
+function removeParkingUser(userId: number, parkId: number)
+{
+// todo: add to DB
+}
+
+function gateEnter(userId: number, parkId: number): boolean 
+{
+  var enterResult: boolean = false;
+
+  // // get parking lot to enter
+  let parkingLot = this.getParkingLotById(parkId);
+
+    // check if user already served parking
+  var userEnterAction = getUserAction(userId, ActionType.enter);
+
+  // check if there is free parking place
+  if(parkingLot.freePlaces > 0 || (userEnterAction != null && parkingLot.reservedPlaces > 0))
+  {
+    if(userEnterAction == null) 
+    {
+      parkingLot.freePlaces--;
+    }
+    else 
+    {
+      parkingLot.reservedPlaces--;
+      parkingLot.waitingToEnter--;
+      this.removeUserAction(userEnterAction); // in db
+    }
+
+    this.setParkingLot(parkingLot); // in db
+    this.addParkingUser(userId, parkId); // in db
+
+    enterResult = true;
+  }
+  
+  return enterResult;
+}
+
+export function gateExit(userId: number, parkId: number): boolean 
+{
+  var exitResult: boolean = true;
+
+  // get parking lot to exit
+  let parkingLot = this.getParkingLotById(parkId);
+
+  // check if user reported as one that about to exit
+  var userAboutToExitAction = getUserAction(userId, ActionType.exit);
+
+  parkingLot.freePlaces++;
+
+  if(userAboutToExitAction != null)
+  {
+    parkingLot.aboutToBeFreePlaces--;
+    this.removeUserAction(userAboutToExitAction); // in db
+
+    if (parkingLot.waitingToEnter > 0) {
+      parkingLot.reservedPlaces++;
+    }
+    else {
+      parkingLot.freePlaces++;
+    }
+  }
+  else {
+    parkingLot.freePlaces++;
+  }
+
+  this.setParkingLot(parkingLot); // in db
+  this.removeParkingUser(userId, parkId); // in db
+
+  return exitResult;
 }
