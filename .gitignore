@@ -46,4 +46,4 @@ Thumbs.db
 server_out
 
 # Mongodb_data
-/mongodb/Mongodb_data
+/mongo-db
