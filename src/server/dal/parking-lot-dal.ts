@@ -41,6 +41,7 @@ export async function getUserList() {
 
 
 export async function leaveParkingLot(userId : number, parkId : number ) {
+<<<<<<< HEAD
     console.log("userId: " + userId + " , parkId: "+ parkId);
     return  [
         {id:1, name: 'חניון עובדים', totalPlaces:300, freePlaces: 11, reservedPlaces:0, aboutToBeFreePlaces:0, waitingToEnter: 0 },
@@ -49,12 +50,13 @@ export async function leaveParkingLot(userId : number, parkId : number ) {
         {id:4, name: 'חניון שקר כלשהו', totalPlaces:500, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:1},
     ];
 
+=======
+  console.log("leaveParkingLot!! " + userId + ", " + parkId);
+>>>>>>> 5350166d79b8a8d41fb3b6394b2763d3a565de79
 }
 
 export async function enterParkingLot(userId : number, parkId : number ) {
-    console.log("userId: " + userId + " , parkId: "+ parkId);
-
-    return this.parkingLotList;
+    console.log("enterParkingLot!! " + userId + ", " + parkId);
 }
 
 export async function getParkingLotToExitFrom(userId: number) {

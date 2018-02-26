@@ -3,7 +3,7 @@
       <mat-form-field class="example-form-field">
         <input matInput type="text" placeholder="מספר עובד" [(ngModel)]="userId" maxlength="5" (keydown.enter)="confirmUser()" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />    
       </mat-form-field>
-      <button mat-fab color="primary" (click)="confirmUser()" >
+      <button mat-fab color="primary" (click)="confirmUser()" [disabled]="userId.length == 0">
           <i class="material-icons">keyboard_arrow_left</i>
         </button>
         <div>

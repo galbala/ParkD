@@ -1,0 +1,19 @@
+.info-dialog-wrapper {
+    direction: rtl;
+    text-align: right;
+}
+
+.dialog-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.dialog-msg {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.dialog-btns {
+    text-align: center;
+}
