@@ -98,10 +98,25 @@ export function addUserAction(userAction: UserAction) {
   setParkingLot(parkingLot);
 }
 
-function getUserAction(userId: number, actionType: ActionType): UserAction
+async function getUserAction(userId: number, actionType: ActionType)
 {
-  var foundAction = this.userActionList.find(x => x.userId == userId && x.actionType == actionType);
-  return foundAction;
+console.log(userId);
+console.log(actionType);
+
+  client = await connect("mongodb://localhost:27017");
+  db = client.db("parkD");
+  const userActionList = db.collection("userActionList");
+  const userActions = await userActionList.find({ userId: userId, actionType: actionType }).toArrayAsync();
+  client.close();
+
+  console.log(userActions);
+  return userActions;
+
+
+
+  // todo get from db
+  // var foundAction = this.userActionList.find(x => x.userId == userId && x.actionType == actionType);
+  // return foundAction;
 }
 
 function setParkingLot(parkingLot: ParkingLot)

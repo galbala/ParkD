@@ -100,6 +100,7 @@ export class ParkdService {
     try{
       var response = await this.http.get("/api/getParkingLots").toPromise(); 
       this.parkingLotList = response as ParkingLot[];
+      //return this.parkingLotList;
     }
     catch(err){
       this.showErrDialog("שגיאה בקבלת רשימת חונים", err);

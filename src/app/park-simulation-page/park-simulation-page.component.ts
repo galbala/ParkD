@@ -9,7 +9,7 @@ import { ParkdService } from '../parkd.service';
 })
 export class ParkSimulationPageComponent implements OnInit {
 
-  parkingLotStatusList: ParkingLot[];
+  //parkingLotStatusList: ParkingLot[];
 
   get parkingLotToExitFrom(): ParkingLot {
     return this.parkingLotStatusList[0];
@@ -20,7 +20,6 @@ export class ParkSimulationPageComponent implements OnInit {
 
   async ngOnInit() {
     //this.parkingLotStatusList = await this.parkdService.getParkingList();
-    //console.log(this.parkingLotStatusList);
   }
 
   //ngOnInit() {
@@ -35,6 +34,10 @@ export class ParkSimulationPageComponent implements OnInit {
 
   onGetOut(parkingLot: ParkingLot){
     this.parkdService.getOut(parkingLot);
+  }
+
+  get parkingLotStatusList() {
+    return this.parkdService.parkingLotList;
   }
 
 
