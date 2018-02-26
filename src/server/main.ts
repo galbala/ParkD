@@ -18,10 +18,6 @@ app.get(
   "/api/getParkingLots",
 <<<<<<< HEAD
   wrap(async function(req) {
-=======
-  wrapExpressApi(async function(req) {
-    console.log("****************");
->>>>>>> 69e262b6c62949c042925d131a10964d1f900c52
     return await getParkingLots();
   })
 );
