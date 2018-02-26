@@ -8,12 +8,12 @@
         {{parkingLot.freePlaces}}/{{parkingLot.totalPlaces}}
       </div>
       <div class="parking-lot-about-to-be-free">
-        <span *ngIf="parkingLot.aboutToBeFreePlaces > 0">{{parkingLot.aboutToBeFreePlaces}} מתפנה בקרוב</span>
+        <span *ngIf="parkingLot.aboutToBeFreePlaces - parkingLot.waitingToEnter > 0">{{parkingLot.aboutToBeFreePlaces - parkingLot.waitingToEnter}} מתפנה בקרוב</span>
         
       </div>
     </div>
     <div class="reserve-btn">
-      <button [disabled]="parkingLot.aboutToBeFreePlaces == 0" mat-raised-button color="primary" (click)="reserve()" >שריון חניה</button>
+      <button [disabled]="parkingLot.aboutToBeFreePlaces - parkingLot.waitingToEnter == 0" mat-raised-button color="primary" (click)="reserve()" >שריון חניה</button>
     </div>
   </mat-card>
 </div>
