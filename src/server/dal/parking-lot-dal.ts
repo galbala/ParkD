@@ -1,21 +1,28 @@
 import { ParkingUser } from "../../app/model/parking-user";
 import { UserAction, ActionType } from "../../app/model/user-action";
 import { promisify } from '../helpers/helpers';
-// import * as mongodb from "mongodb";
+import * as mongodb from "mongodb";
 
 import { ParkingLot  } from "../../app/model/parking-lot";
+
+mongodb.Cursor.prototype.toArrayAsync = promisify(mongodb.Cursor.prototype.toArray);
+
+let client;
+let db;
+const connect: (url: string)=>Promise<any> = promisify(mongodb.MongoClient.connect);
+
 
 this.parkingUserList = [
     {parkId:1, userId: 1000},
     {parkId:2, userId: 2000},
   ];
 
-this.parkingLotList = [
-    {id:1, name: 'חניון עובדים', totalPlaces:300, freePlaces: 10, reservedPlaces:0, aboutToBeFreePlaces:0, waitingToEnter: 0  },
-    {id:2, name: 'חניון דרום', totalPlaces:100, freePlaces: 0, reservedPlaces:2, aboutToBeFreePlaces:1, waitingToEnter: 0},
-    {id:3, name: 'חניון עבודה סוציאלית', totalPlaces:200, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:1, waitingToEnter: 0},
-    {id:4, name: 'חניון שקר כלשהו', totalPlaces:500, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:1, waitingToEnter: 0},
-];
+// this.parkingLotList = [
+//     {id:1, name: 'חניון עובדים', totalPlaces:300, freePlaces: 10, reservedPlaces:0, aboutToBeFreePlaces:0, waitingToEnter: 0  },
+//     {id:2, name: 'חניון דרום', totalPlaces:100, freePlaces: 0, reservedPlaces:2, aboutToBeFreePlaces:1, waitingToEnter: 0},
+//     {id:3, name: 'חניון עבודה סוציאלית', totalPlaces:200, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:1, waitingToEnter: 0},
+//     {id:4, name: 'חניון שקר כלשהו', totalPlaces:500, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:1, waitingToEnter: 0},
+// ];
 
 this.userActionList = [
   {id: 1, userId: 1000, parkId: 1, actionType: ActionType.enter, actionTime: new Date() },
@@ -35,8 +42,12 @@ this.userList = [
 
 
 export async function getParkingLots() {
-  
-  return this.parkingLotList;
+  client = await connect("mongodb://localhost:27017");
+  db = client.db("parkD");
+  const parkingLotList = db.collection("parkingLotList");
+  const parkingLots = await parkingLotList.find({}).toArrayAsync();
+  client.close();
+  return parkingLots;
 }
 
 export async function getUserList() {
