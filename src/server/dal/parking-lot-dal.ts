@@ -10,14 +10,14 @@ this.parkingUserList = [
     {parkId:2, userId: 2000},
   ];
 
-  var parkingLotList: ParkingLot[] = [
+this.parkingLotList = [
     {id:1, name: 'חניון עובדים', totalPlaces:300, freePlaces: 10, reservedPlaces:0, aboutToBeFreePlaces:0, waitingToEnter: 0  },
     {id:2, name: 'חניון דרום', totalPlaces:100, freePlaces: 0, reservedPlaces:2, aboutToBeFreePlaces:1, waitingToEnter: 0},
     {id:3, name: 'חניון עבודה סוציאלית', totalPlaces:200, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:1, waitingToEnter: 0},
     {id:4, name: 'חניון שקר כלשהו', totalPlaces:500, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:1, waitingToEnter: 0},
 ];
 
-var userActionList: UserAction[] = [
+this.userActionList = [
   {id: 1, userId: 1000, parkId: 1, actionType: ActionType.enter, actionTime: new Date() },
   {id: 1, userId: 2000, parkId: 1, actionType: ActionType.exit, actionTime: new Date() },
   {id: 1, userId: 3000, parkId: 2, actionType: ActionType.exit, actionTime: new Date() },

@@ -21,6 +21,7 @@ export class ParkSimulationPageComponent implements OnInit {
 
   async ngOnInit() {
     this.parkingLotStatusList = await this.parkdService.getParkingList();
+    console.log(this.parkingLotStatusList);
   }
 
   //ngOnInit() {

@@ -16,14 +16,14 @@ app.listen(3001, function() {
 
 app.get(
   "/api/getParkingLots",
-  wrapExpressApi(async function(req) {
+  wrap(async function(req) {
     return await getParkingLots();
   })
 );
 
 app.get(
   "/api/getParkingLotToExitFrom/:userId",
-  wrapExpressApi(async function(req) {
+  wrap(async function(req) {
     let userId = req.params.userId;
     return await getParkingLotToExitFrom(userId);
   })
@@ -31,7 +31,7 @@ app.get(
 
 app.get(
   "/api/addUserAction/:userAction",
-  wrapExpressApi(async function(req) {
+  wrap(async function(req) {
     const userAction = JSON.parse(req.params.userAction);
     return await addUserAction(userAction);
   })
@@ -39,7 +39,7 @@ app.get(
 
 app.get(
   "/api/getUserList",
-  wrapExpressApi(async function(req) {
+  wrap(async function(req) {
     return await getUserList();
   })
 );
@@ -47,7 +47,7 @@ app.get(
 //simulations functions
 app.get(
   "/api/getOut/:barrierInput",
-  wrapExpressApi(async function(req) {
+  wrap(async function(req) {
     const barrierInput = JSON.parse(req.params.barrierInput);
     console.log("getOut " + req.params);
     return await leaveParkingLot(barrierInput.userId, barrierInput.parkId);
@@ -56,7 +56,7 @@ app.get(
 
 app.get(
   "/api/getIn/:barrierInput",
-  wrapExpressApi(async function(req) {
+  wrap(async function(req) {
     const barrierInput = JSON.parse(req.params.barrierInput);
     console.log("getIn " + req.params);
     return await enterParkingLot(barrierInput.userId, barrierInput.parkId);
@@ -64,7 +64,7 @@ app.get(
 );
 //end simulations functions
 
-function wrapExpressApi(fn) {
+function wrap(fn) {
   return function(req, res) {
     try {
       const retVal = fn(req);
