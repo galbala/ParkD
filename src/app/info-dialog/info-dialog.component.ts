@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { ExitReqResultType, EnterReqResultType } from '../model/user-action';
 
 @Component({
   selector: 'app-info-dialog',
@@ -54,10 +55,24 @@ export class InfoDialogComponent implements OnInit {
     }
     else {
       if (this.data.isSimulator) {
-        if (this.data.actionType == 1) {
-          message = `${ this.data.userName }, נכנסת ל-${ this.data.parkingLotName }`;
-        } else {
-          message = `${ this.data.userName }, יצאת מ-${ this.data.parkingLotName }`;
+        if (this.data.actionType == "getOut") {
+          if(this.data.response == ExitReqResultType.exitAllowed){
+            message = `${ this.data.userName }, יצאת מ-${ this.data.parkingLotName }`;
+          }
+          else{ //ExitReqResultType.NotInThisParkingLot
+            message = `${ this.data.userName }, אינך ב-${ this.data.parkingLotName }`;
+          }
+        } 
+        else if (this.data.actionType == "getIn") {
+          if(this.data.response == EnterReqResultType.enterAllowed){
+            message = `${ this.data.userName }, נכנסת ל-${ this.data.parkingLotName }`;
+          }
+          else if(this.data.response == EnterReqResultType.NoFreePlaces){
+            message = `${ this.data.userName }, מצטערים, אין חניה ב-${ this.data.parkingLotName }`;
+          }
+          else{ //EnterReqResultType.shouldWait
+            message = `${ this.data.userName }, החניה השמורה לך עדיין לא התפנתה ב-${ this.data.parkingLotName }`;
+          }
         }
       } else {
         if (this.data.actionType == 1) {
