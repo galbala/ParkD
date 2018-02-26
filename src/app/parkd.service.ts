@@ -157,7 +157,7 @@ export class ParkdService {
       let dialogRef = this.dialog.open(InfoDialogComponent, {
         width: '430px',
         disableClose: true,
-        data: { actionType: ActionType.exit, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
+        data: { actionType: ActionType.exit, parkingLotName: parkingLot[0].name, userName: this.getUserNameById(this.userId) }
       });
   
       dialogRef.afterClosed().subscribe(result => {
