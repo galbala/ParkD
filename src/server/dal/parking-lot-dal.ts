@@ -66,9 +66,16 @@ export function getParkingLotById(parkId: number) {
 
 
 export function addUserAction(userAction: UserAction) {
-  this.userActionList.push(userAction);
+  this.userActionList.push(userAction);//todo DB
+
   let parkingLot = this.getParkingLotById(userAction.parkId);
-  return parkingLot.name;
+  if (userAction.actionType == ActionType.enter) {
+    parkingLot.waitingToEnter++;
+  }
+  else {
+    parkingLot.aboutToBeFreePlaces++;
+  }
+  setParkingLot(parkingLot);
 }
 
 function getUserAction(userId: number, actionType: ActionType): UserAction
@@ -83,9 +90,17 @@ function setParkingLot(parkingLot: ParkingLot)
 // todo: save in DB
 }
 
-function removeUserAction(userAction: UserAction)
+function removeUserAction(userAction: UserAction, parkingLot: ParkingLot)
 {
-// todo: save in DB
+// todo: add save in DB to existing methid
+  
+  if (userAction.actionType == ActionType.enter) {
+    parkingLot.waitingToEnter--;
+  }
+  else {
+    parkingLot.aboutToBeFreePlaces--;
+  }
+  return parkingLot;
 }
 
 function addParkingUser(userId: number, parkId: number)
@@ -118,8 +133,7 @@ function gateEnter(userId: number, parkId: number): boolean
     else 
     {
       parkingLot.reservedPlaces--;
-      parkingLot.waitingToEnter--;
-      this.removeUserAction(userEnterAction); // in db
+      parkingLot = this.removeUserAction(userEnterAction, parkingLot); 
     }
 
     this.setParkingLot(parkingLot); // in db
@@ -145,8 +159,7 @@ export function gateExit(userId: number, parkId: number): boolean
 
   if(userAboutToExitAction != null)
   {
-    parkingLot.aboutToBeFreePlaces--;
-    this.removeUserAction(userAboutToExitAction); // in db
+    parkingLot = this.removeUserAction(userAboutToExitAction, parkingLot);
 
     if (parkingLot.waitingToEnter > 0) {
       parkingLot.reservedPlaces++;
