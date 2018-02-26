@@ -76,6 +76,7 @@ export class ParkdService {
   async getParkingList(): Promise<ParkingLot[]> {
     var response = await this.http.get("/api/getParkingLots").toPromise(); 
     this.parkingLotList = response as ParkingLot[];
+    console.log(this.parkingLotList);
     return this.parkingLotList;
   }
 
