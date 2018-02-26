@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material';
 import { InfoDialogComponent } from './info-dialog/info-dialog.component';
 
 
+
 @Injectable()
 export class ParkdService {
 
@@ -134,13 +135,6 @@ export class ParkdService {
   }
 
   async getOut(parkingLot: ParkingLot){
-    let dialogRef = this.dialog.open(InfoDialogComponent, {
-      width: '430px',
-      disableClose: true,
-      data: { isSimulator: true, actionType: ActionType.exit, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {});
 
     const barrierInput = {
       userId: this.userId,
@@ -148,7 +142,15 @@ export class ParkdService {
     };
     console.log("/api/getOut/"+JSON.stringify(barrierInput));
     try{
-      await this.http.get("/api/getOut/"+JSON.stringify(barrierInput)).toPromise(); 
+      var response = await this.http.get("/api/getOut/"+JSON.stringify(barrierInput)).toPromise(); 
+
+      let dialogRef = this.dialog.open(InfoDialogComponent, {
+        width: '430px',
+        disableClose: true,
+        data: { isSimulator: true, actionType: "getOut" ,response: response, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {});
     }
     catch (err){
       console.log(err);
@@ -157,25 +159,39 @@ export class ParkdService {
   }
 
 
-  async getIn(parkingLot: ParkingLot){
+  showErrDialog(message: string, error: any){
+
+    var fullMsg:string = message + "  " + error;
+
     let dialogRef = this.dialog.open(InfoDialogComponent, {
       width: '430px',
       disableClose: true,
-      data: { isSimulator: true, actionType: ActionType.enter, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
+      data: { errorMsg: fullMsg }
     });
+  }
 
-    dialogRef.afterClosed().subscribe(result => {});
-    
+  async getIn(parkingLot: ParkingLot){
+
     const barrierInput = {
       userId: this.userId,
       parkId: parkingLot.id
     };
     console.log("/api/getIn/"+JSON.stringify(barrierInput));
     try{
-      await this.http.get("/api/getIn/"+JSON.stringify(barrierInput)).toPromise(); 
+      var response = await this.http.get("/api/getIn/"+JSON.stringify(barrierInput)).toPromise(); 
+
+      let dialogRef = this.dialog.open(InfoDialogComponent, {
+        width: '430px',
+        disableClose: true,
+        data: { isSimulator: true, actionType: "getIn" ,response: response, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {});
+
     }
-    catch (err){
+    catch(err){
       console.log(err);
+      this.showErrDialog("שגיאה בהוספת עובד לחניון", err);
     }
     
   }

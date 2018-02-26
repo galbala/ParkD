@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { ExitReqResultType, EnterReqResultType } from '../model/user-action';
 
 @Component({
   selector: 'app-info-dialog',
@@ -23,17 +24,23 @@ export class InfoDialogComponent implements OnInit {
   createDialogTitle(): string {
     let title;
 
-    if (this.data.isSimulator) {
-      if (this.data.actionType == 1) {
-        title = "ברוכים הבאים"
+
+    if(this.data.errorMsg != null) {
+      title = "ארעה שגיאה"
+    }
+    else{
+      if (this.data.isSimulator) {
+        if (this.data.actionType == 1) {
+          title = "ברוכים הבאים"
+        } else {
+          title = "צאתכם לשלום";
+        }
       } else {
-        title = "צאתכם לשלום";
-      }
-    } else {
-      if (this.data.actionType == 1) {
-        title = "שריון חניה";
-      } else {
-        title = "פינוי חניה";
+        if (this.data.actionType == 1) {
+          title = "שריון חניה";
+        } else {
+          title = "פינוי חניה";
+        }
       }
     }
 
@@ -43,17 +50,36 @@ export class InfoDialogComponent implements OnInit {
   createDialogMessage(): string {
     let message = "";
 
-    if (this.data.isSimulator) {
-      if (this.data.actionType == 1) {
-        message = `${ this.data.userName }, נכנסת ל-${ this.data.parkingLotName }`;
+    if(this.data.errorMsg != null) {
+      message = this.data.errorMsg;
+    }
+    else {
+      if (this.data.isSimulator) {
+        if (this.data.actionType == "getOut") {
+          if(this.data.response == ExitReqResultType.exitAllowed){
+            message = `${ this.data.userName }, יצאת מ-${ this.data.parkingLotName }`;
+          }
+          else{ //ExitReqResultType.NotInThisParkingLot
+            message = `${ this.data.userName }, אינך ב-${ this.data.parkingLotName }`;
+          }
+        } 
+        else if (this.data.actionType == "getIn") {
+          if(this.data.response == EnterReqResultType.enterAllowed){
+            message = `${ this.data.userName }, נכנסת ל-${ this.data.parkingLotName }`;
+          }
+          else if(this.data.response == EnterReqResultType.NoFreePlaces){
+            message = `${ this.data.userName }, מצטערים, אין חניה ב-${ this.data.parkingLotName }`;
+          }
+          else{ //EnterReqResultType.shouldWait
+            message = `${ this.data.userName }, החניה השמורה לך עדיין לא התפנתה ב-${ this.data.parkingLotName }`;
+          }
+        }
       } else {
-        message = `${ this.data.userName }, יצאת מ-${ this.data.parkingLotName }`;
-      }
-    } else {
-      if (this.data.actionType == 1) {
-        message = `החניה ב-${ this.data.parkingLotName } שוריינה בהצלחה ל-${ this.data.userName }.`;
-      } else {
-        message = `${ this.data.userName }, תודה שעדכנת על כוונתך לפנות את החניה מ-${ this.data.parkingLotName }.`;;
+        if (this.data.actionType == 1) {
+          message = `החניה ב-${ this.data.parkingLotName } שוריינה בהצלחה ל-${ this.data.userName }.`;
+        } else {
+          message = `${ this.data.userName }, תודה שעדכנת על כוונתך לפנות את החניה מ-${ this.data.parkingLotName }.`;;
+        }
       }
     }
 
