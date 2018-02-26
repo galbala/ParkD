@@ -1,5 +1,5 @@
 import { ParkingUser } from "../../app/model/parking-user";
-import { UserAction, ActionType, ExitReqResultType } from "../../app/model/user-action";
+import { UserAction, ActionType, ExitReqResultType, EnterReqResultType } from "../../app/model/user-action";
 import { promisify } from '../helpers/helpers';
 import * as mongodb from "mongodb";
 
@@ -124,9 +124,9 @@ function removeParkingUser(userId: number, parkId: number)
 // todo: add to DB
 }
 
-export function gateEnter(userId: number, parkId: number): boolean 
+export function gateEnter(userId: number, parkId: number): EnterReqResultType 
 {
-  var enterResult: boolean = false;
+  var enterResult: EnterReqResultType = EnterReqResultType.NoFreePlaces;
 
   // // get parking lot to enter
   let parkingLot = this.getParkingLotById(parkId);
@@ -150,9 +150,16 @@ export function gateEnter(userId: number, parkId: number): boolean
     this.setParkingLot(parkingLot); // in db
     this.addParkingUser(userId, parkId); // in db
 
-    enterResult = true;
+    enterResult = EnterReqResultType.enterAllowed;
   }
-  
+  else {
+    if (userEnterAction == null) {// user was not registered to reserve parking
+      enterResult = EnterReqResultType.NoFreePlaces;
+    }
+    else {
+      enterResult = EnterReqResultType.shouldWait;
+    }
+  }
   return enterResult;
 }
 
