@@ -17,7 +17,7 @@ export class ParkdService {
    userState: UserStateType;
   private userId: number = null;
   userName: string = null;
-  private parkingLotList: ParkingLot[] = [];
+  parkingLotList: ParkingLot[] = [];
   private userList: User[] = [];
 
   //private parkingUserList: ParkingUser[];
@@ -27,18 +27,30 @@ export class ParkdService {
   constructor(private http: HttpClient, public dialog: MatDialog) { 
 
     this.getUsersList();
-
+    this.getParkingList();
     this.parkingLotToExitFrom = null;
     this.setUserState();
   }
  
-  public resetUser(){
+  public resetAppState(){
     this.userId = null;
     this.userName = null;
     this.setUserState();
+    this.getParkingList();
   }
 
  
+  showErrDialog(message: string, error: any){
+    console.log(error);
+    var fullMsg:string = message + "  " + error;
+
+    let dialogRef = this.dialog.open(InfoDialogComponent, {
+      width: '430px',
+      disableClose: true,
+      data: { errorMsg: fullMsg }
+    });
+  }
+
   private async setUserState() {
     var parkingUser: ParkingUser;
 
@@ -63,21 +75,35 @@ export class ParkdService {
   }
 
   private async getParkingLotToExitFrom(userId: number): Promise<ParkingLot> {
-    var response = await this.http.get("/api/getParkingLotToExitFrom/"+userId).toPromise(); 
-    return response as ParkingLot;    
+    try {
+      var response = await this.http.get("/api/getParkingLotToExitFrom/"+userId).toPromise(); 
+      return response as ParkingLot;    
+    }
+    catch(err){
+      this.showErrDialog("שגיאה בקבלת פרטי חניון לפינוי", err);
+    }
   }
   
 
   async getUsersList(): Promise<User[]> {
-    var response = await this.http.get("/api/getUserList").toPromise(); 
-    this.userList = response as User[];
-    return this.userList;
+    try{
+      var response = await this.http.get("/api/getUserList").toPromise(); 
+      this.userList = response as User[];
+      return this.userList;
+    }
+    catch(err){
+      this.showErrDialog("שגיאה בקבלת רשימת עובדים", err);
+    }
   }
 
-  async getParkingList(): Promise<ParkingLot[]> {
-    var response = await this.http.get("/api/getParkingLots").toPromise(); 
-    this.parkingLotList = response as ParkingLot[];
-    return this.parkingLotList;
+  async getParkingList(){
+    try{
+      var response = await this.http.get("/api/getParkingLots").toPromise(); 
+      this.parkingLotList = response as ParkingLot[];
+    }
+    catch(err){
+      this.showErrDialog("שגיאה בקבלת רשימת חונים", err);
+    }
   }
 
   setUserAuth(id: number) {
@@ -95,19 +121,25 @@ export class ParkdService {
         actionTime: new Date()
     };
 
-    var response = await this.http.get("/api/addUserAction/"+JSON.stringify(userAction)).toPromise();    
-    console.log(response);
-    
-    let dialogRef = this.dialog.open(InfoDialogComponent, {
-      width: '420px',
-      disableClose: true,
-      data: { actionType: ActionType.enter, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      location.reload();
-    });
-
+    try{
+      var response = await this.http.get("/api/addUserAction/"+JSON.stringify(userAction)).toPromise();    
+      console.log(response);
+      
+      let dialogRef = this.dialog.open(InfoDialogComponent, {
+        width: '420px',
+        disableClose: true,
+        data: { actionType: ActionType.enter, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        this.resetAppState();
+        //location.reload();
+      });
+  
+    }
+    catch(err){
+      this.showErrDialog("שגיאה בשריון חניה", err);
+    }
   }
 
   async exitFromParking(parkingLot: ParkingLot){
@@ -119,19 +151,24 @@ export class ParkdService {
       actionTime: new Date()
     };
 
-    var response = await this.http.get("/api/addUserAction/"+JSON.stringify(userAction)).toPromise();    
+    try{
+      var response = await this.http.get("/api/addUserAction/"+JSON.stringify(userAction)).toPromise();    
+   
+      let dialogRef = this.dialog.open(InfoDialogComponent, {
+        width: '430px',
+        disableClose: true,
+        data: { actionType: ActionType.exit, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
+      });
   
- 
-    let dialogRef = this.dialog.open(InfoDialogComponent, {
-      width: '430px',
-      disableClose: true,
-      data: { actionType: ActionType.exit, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      location.reload();
-    });
-
+      dialogRef.afterClosed().subscribe(result => {
+        this.resetAppState();
+        //location.reload();
+      });
+  
+    }
+    catch(err){
+      this.showErrDialog("שגיאה בהוספת פינוי חניה", err);
+    }
   }
 
   async getOut(parkingLot: ParkingLot){
@@ -152,23 +189,12 @@ export class ParkdService {
   
       dialogRef.afterClosed().subscribe(result => {});
     }
-    catch (err){
-      console.log(err);
+    catch(err){
+      this.showErrDialog("שגיאה בתהליך יציאה מחניון", err);
     }
 
   }
 
-
-  showErrDialog(message: string, error: any){
-
-    var fullMsg:string = message + "  " + error;
-
-    let dialogRef = this.dialog.open(InfoDialogComponent, {
-      width: '430px',
-      disableClose: true,
-      data: { errorMsg: fullMsg }
-    });
-  }
 
   async getIn(parkingLot: ParkingLot){
 
@@ -178,6 +204,7 @@ export class ParkdService {
     };
     console.log("/api/getIn/"+JSON.stringify(barrierInput));
     try{
+
       var response = await this.http.get("/api/getIn/"+JSON.stringify(barrierInput)).toPromise(); 
 
       let dialogRef = this.dialog.open(InfoDialogComponent, {
@@ -190,8 +217,7 @@ export class ParkdService {
 
     }
     catch(err){
-      console.log(err);
-      this.showErrDialog("שגיאה בהוספת עובד לחניון", err);
+      this.showErrDialog("שגיאה בתהליך כניסה לחניון", err);
     }
     
   }

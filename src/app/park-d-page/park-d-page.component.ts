@@ -7,9 +7,9 @@ import { ParkdService, UserStateType } from '../parkd.service';
   templateUrl: './park-d-page.component.html',
   styleUrls: ['./park-d-page.component.css']
 })
-export class ParkDPageComponent implements OnInit {
+export class ParkDPageComponent  {
 
-  parkingLotStatusList: ParkingLot[];
+  //parkingLotStatusList: ParkingLot[];
 
   get parkingLotToExitFrom(): ParkingLot {
     return this.parkdService.parkingLotToExitFrom;
@@ -17,15 +17,10 @@ export class ParkDPageComponent implements OnInit {
 
 
   constructor(private parkdService: ParkdService) {
-    this.parkdService.resetUser();
+    
 
   }
 
-
-  async ngOnInit() {
-    this.parkingLotStatusList = await this.parkdService.getParkingList();
-    console.log(this.parkingLotStatusList);
-  }
 
   get userState() {
     return this.parkdService.userState;
@@ -39,5 +34,10 @@ export class ParkDPageComponent implements OnInit {
   onExitFromParking(parkingLotToExit: ParkingLot){
     this.parkdService.exitFromParking(parkingLotToExit);
   }
+
+  get parkingLotStatusList() {
+    return this.parkdService.parkingLotList;
+  }
+
 
 }
