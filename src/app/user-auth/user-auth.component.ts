@@ -9,6 +9,7 @@ import {FormsModule } from '@angular/forms';
 })
 export class UserAuthComponent implements OnInit {
   userId: number;
+  userName: string;
 
   constructor(private parkdService: ParkdService) { }
 
@@ -17,6 +18,16 @@ export class UserAuthComponent implements OnInit {
 
   confirmUser() {
     this.parkdService.setUserAuth(this.userId);
+
+    var nameResult = this.parkdService.getUserNameById(this.userId); 
+    if(nameResult != null) {
+      this.userName = nameResult;
+    }
+    else{
+      this.userName = "מס' עובד לא נמצא";
+      this.parkdService.resetUser();
+    }
+    
   }
 
 

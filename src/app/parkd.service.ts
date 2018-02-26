@@ -5,6 +5,7 @@ import { UserAction, ActionType } from './model/user-action';
 import { HttpClient } from '@angular/common/http';
 
 import 'rxjs/add/operator/toPromise';
+import { User } from './model/user';
 
 
 @Injectable()
@@ -13,11 +14,15 @@ export class ParkdService {
    userState: UserStateType;
   private userId: number = null;
   private parkingLotList: ParkingLot[] = [];
+  private userList: User[] = [];
+
   //private parkingUserList: ParkingUser[];
   private userActionList: UserAction[];
    parkingLotToExitFrom: ParkingLot;
 
   constructor(private http: HttpClient) { 
+
+    this.getUsersList();
 
     // this.parkingUserList = [
     //   {parkId:1, userId: 1003},
@@ -41,11 +46,12 @@ export class ParkdService {
   }
  
   public resetUser(){
+    //this.userState = UserStateType.notExist;
     this.userId = null;
     this.setUserState();
   }
 
-
+ 
   private async setUserState() {
     var parkingUser: ParkingUser;
     if (this.userId == null)
@@ -69,6 +75,13 @@ export class ParkdService {
     return this.parkingLotList.find(x => x.id == parkId);
   }
   
+
+  async getUsersList(): Promise<User[]> {
+    var response = await this.http.get("/api/getUserList").toPromise(); 
+    this.userList = response as User[];
+    return this.userList;
+  }
+
   async getParkingList(): Promise<ParkingLot[]> {
     var response = await this.http.get("/api/getParkingLots").toPromise(); 
     this.parkingLotList = response as ParkingLot[];
@@ -132,6 +145,14 @@ export class ParkdService {
     
   }
 
+  getUserNameById(userId: number): string {
+    var foundUser = this.userList.find(x => x.userId == userId);
+    if(foundUser != null) {
+      return foundUser.userName;
+    }
+
+    return null;
+  }
 
 }
 

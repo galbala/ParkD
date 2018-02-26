@@ -17,9 +17,23 @@ this.parkingUserList = [
     {id:4, name: 'חניון שקר כלשהו', totalPlaces:500, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:1},
 ];
 
+this.userList = [
+  {userId: 1000, userName: "אודליה"},
+  {userId: 2000, userName: "נועה"},
+  {userId: 3000, userName: "אורלי"},
+  {userId: 4000, userName: "גל"},
+  {userId: 5000, userName: "דורון"}
+];
+
+
 export async function getParkingLots() {
   return this.parkingLotList;
 }
+
+export async function getUserList() {
+  return this.userList;
+}
+
 
 export async function leaveParkingLot(userId : number, parkId : number ) {
     console.log("userId: " + userId + " , parkId: "+ parkId);
