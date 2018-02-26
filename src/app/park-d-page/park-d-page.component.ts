@@ -7,7 +7,7 @@ import { ParkdService, UserStateType } from '../parkd.service';
   templateUrl: './park-d-page.component.html',
   styleUrls: ['./park-d-page.component.css']
 })
-export class ParkDPageComponent  {
+export class ParkDPageComponent implements OnInit {
 
   //parkingLotStatusList: ParkingLot[];
 
@@ -21,6 +21,9 @@ export class ParkDPageComponent  {
 
   }
 
+  ngOnInit(){
+    
+  }
 
   get userState() {
     return this.parkdService.userState;

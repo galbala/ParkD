@@ -8,6 +8,8 @@ import { ParkingLot  } from "../../app/model/parking-lot";
 mongodb.Cursor.prototype.toArrayAsync = promisify(mongodb.Cursor.prototype.toArray);
 mongodb.Collection.prototype.findAsync = promisify(mongodb.Collection.prototype.find);
 mongodb.Collection.prototype.updateAsync = promisify(mongodb.Collection.prototype.update);
+mongodb.Collection.prototype.insertOneAsync = promisify(mongodb.Collection.prototype.insertOne);
+mongodb.Collection.prototype.removeAsync = promisify(mongodb.Collection.prototype.remove);
 
 let client;
 let db;
@@ -26,13 +28,13 @@ const connect: (url: string)=>Promise<any> = promisify(mongodb.MongoClient.conne
 //     {id:4, name: 'חניון שקר כלשהו', totalPlaces:500, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:1, waitingToEnter: 0},
 // ];
 
-this.userActionList = [
-  {id: 1, userId: 1000, parkId: 1, actionType: ActionType.enter, actionTime: new Date() },
-  {id: 1, userId: 2000, parkId: 1, actionType: ActionType.exit, actionTime: new Date() },
-  {id: 1, userId: 3000, parkId: 2, actionType: ActionType.exit, actionTime: new Date() },
-  {id: 1, userId: 4000, parkId: 2, actionType: ActionType.exit, actionTime: new Date() },
-  {id: 1, userId: 5000, parkId: 3, actionType: ActionType.exit, actionTime: new Date() },
-];
+// this.userActionList = [
+//   {id: 1, userId: 1000, parkId: 1, actionType: ActionType.enter, actionTime: new Date() },
+//   {id: 1, userId: 2000, parkId: 1, actionType: ActionType.exit, actionTime: new Date() },
+//   {id: 1, userId: 3000, parkId: 2, actionType: ActionType.exit, actionTime: new Date() },
+//   {id: 1, userId: 4000, parkId: 2, actionType: ActionType.exit, actionTime: new Date() },
+//   {id: 1, userId: 5000, parkId: 3, actionType: ActionType.exit, actionTime: new Date() },
+// ];
 
 // this.userList = [
 //   {userId: 1000, userName: "אודליה"},
@@ -48,7 +50,6 @@ export async function getParkingLots() {
   const parkingLotList = db.collection("parkingLotList");
   const parkingLots = await parkingLotList.find({}).toArrayAsync();
   client.close();
-
   return parkingLots;
 }
 
@@ -58,18 +59,22 @@ export async function getUserList() {
   const usersList = db.collection("userList");
   const users = await usersList.find({}).toArrayAsync();
   client.close();
-
   return users;
+
 }
 
-export async function getParkingLotById(parkingUser) {
+export async function getParkingLotById(parkId) {
   client = await connect("mongodb://localhost:27017");
   db = client.db("parkD");
   const parkingLotList = db.collection("parkingLotList");
-  const parkingLot = await parkingLotList.find({ id: parkingUser.parkId }).toArrayAsync();
+  const parkingLot = await parkingLotList.find({ id: parkId }).toArrayAsync();
   client.close();
+  if (parkingLot != null && parkingLot.length > 0)
+    return parkingLot[0];
+  else
+    return null;
 
-  return parkingLot;
+  
 }
 
 export async function getParkingLotToExitFrom(currentUserId: number) {
@@ -79,15 +84,23 @@ export async function getParkingLotToExitFrom(currentUserId: number) {
   const parkingUser = await parkingUserList.find({ userId: Number(currentUserId) }).toArrayAsync();
   client.close();
   
+  
   console.log(parkingUser[0]);
   if (parkingUser != null && parkingUser.length > 0)
-    return this.getParkingLotById(parkingUser[0]);
+    return this.getParkingLotById(parkingUser[0].parkId);
   else
     return null;
 }
 
-export function addUserAction(userAction: UserAction) {
-  this.userActionList.push(userAction);//todo DB
+export async function addUserAction(userAction: UserAction) {
+  client = await connect("mongodb://localhost:27017");
+  db = client.db("parkD");
+  const userActionList = db.collection("userActionList");
+  userAction.actionTime = new Date();
+  await userActionList.insertOneAsync( {userId: userAction.userId, parkId: userAction.parkId, actionType: userAction.actionType, actionTime: userAction.actionTime});
+  
+  client.close();
+
 
   let parkingLot = this.getParkingLotById(userAction.parkId);
   if (userAction.actionType == ActionType.enter) {
@@ -109,15 +122,14 @@ console.log(actionType);
   const userActionList = db.collection("userActionList");
   const userActions = await userActionList.find({ userId: userId, actionType: actionType }).toArrayAsync();
   client.close();
+  if (userActions != null && userActions.length > 0)
+    return userActions[0];
+  else
+    return null;
+  
 
-  console.log(userActions);
-  return userActions;
 
-
-
-  // todo get from db
-  // var foundAction = this.userActionList.find(x => x.userId == userId && x.actionType == actionType);
-  // return foundAction;
+  
 }
 
 export async function setParkingLot(parkingLot: ParkingLot)
@@ -127,8 +139,8 @@ export async function setParkingLot(parkingLot: ParkingLot)
   const parkingLotList = db.collection("parkingLotList");
   console.log(parkingLotList.find({ id: parkingLot.id }));
 
-  await parkingLotList.updateAsync({id:parkingLot.id}, JSON.stringify(parkingLot));
-
+  await parkingLotList.updateAsync({id:parkingLot.id}, {id: parkingLot.id, name:parkingLot.name, totalPlaces:parkingLot.totalPlaces,
+    freePlaces:parkingLot.freePlaces,reservedPlaces:parkingLot.reservedPlaces,aboutToBeFreePlaces:parkingLot.aboutToBeFreePlaces,waitingToEnter:parkingLot.waitingToEnter});
   client.close();
 
   return parkingLot;
@@ -137,7 +149,7 @@ export async function setParkingLot(parkingLot: ParkingLot)
 
 function removeUserAction(userAction: UserAction, parkingLot: ParkingLot)
 {
-// todo: add save in DB to existing methid
+// todo: add remove in DB to existing methid
   
   if (userAction.actionType == ActionType.enter) {
     parkingLot.waitingToEnter--;
@@ -155,6 +167,7 @@ function addParkingUser(userId: number, parkId: number)
 
 function getParkingUser(userId: number, parkId: number):ParkingUser
 {
+  //todo
   return null;
 }
 

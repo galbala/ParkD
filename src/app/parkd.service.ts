@@ -77,6 +77,7 @@ export class ParkdService {
   private async getParkingLotToExitFrom(userId: number): Promise<ParkingLot> {
     try {
       var response = await this.http.get("/api/getParkingLotToExitFrom/"+userId).toPromise(); 
+      
       return response as ParkingLot;    
     }
     catch(err){
@@ -115,7 +116,7 @@ export class ParkdService {
 
   async reserveParking(parkingLot: ParkingLot){
     const userAction = {
-        id: 1,
+        //id: 1,
         userId: this.userId,
         parkId: parkingLot.id,
         actionType: ActionType.enter,
@@ -145,7 +146,7 @@ export class ParkdService {
 
   async exitFromParking(parkingLot: ParkingLot){
     const userAction = {
-      id: 1,
+      //id: 1,
       userId: this.userId,
       parkId: parkingLot.id,
       actionType: ActionType.exit,
@@ -153,12 +154,13 @@ export class ParkdService {
     };
 
     try{
+      console.log("*************",userAction);
       var response = await this.http.get("/api/addUserAction/"+JSON.stringify(userAction)).toPromise();    
    
       let dialogRef = this.dialog.open(InfoDialogComponent, {
         width: '430px',
         disableClose: true,
-        data: { actionType: ActionType.exit, parkingLotName: parkingLot[0].name, userName: this.getUserNameById(this.userId) }
+        data: { actionType: ActionType.exit, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
       });
   
       dialogRef.afterClosed().subscribe(result => {
