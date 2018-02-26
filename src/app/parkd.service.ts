@@ -20,7 +20,7 @@ export class ParkdService {
   private userList: User[] = [];
 
   //private parkingUserList: ParkingUser[];
-  private userActionList: UserAction[];
+  //private userActionList: UserAction[];
    parkingLotToExitFrom: ParkingLot;
 
   constructor(private http: HttpClient, public dialog: MatDialog) { 
@@ -37,13 +37,13 @@ export class ParkdService {
     //   {parkId:3, userId: 3003},
     // ];
 
-    this.userActionList = [
-      {id: 1, userId: 1000, parkId: 1, actionType: ActionType.enter, actionTime: new Date() },
-      {id: 1, userId: 2000, parkId: 1, actionType: ActionType.exit, actionTime: new Date() },
-      {id: 1, userId: 3000, parkId: 2, actionType: ActionType.exit, actionTime: new Date() },
-      {id: 1, userId: 4000, parkId: 2, actionType: ActionType.exit, actionTime: new Date() },
-      {id: 1, userId: 5000, parkId: 3, actionType: ActionType.exit, actionTime: new Date() },
-    ];
+    // this.userActionList = [
+    //   {id: 1, userId: 1000, parkId: 1, actionType: ActionType.enter, actionTime: new Date() },
+    //   {id: 1, userId: 2000, parkId: 1, actionType: ActionType.exit, actionTime: new Date() },
+    //   {id: 1, userId: 3000, parkId: 2, actionType: ActionType.exit, actionTime: new Date() },
+    //   {id: 1, userId: 4000, parkId: 2, actionType: ActionType.exit, actionTime: new Date() },
+    //   {id: 1, userId: 5000, parkId: 3, actionType: ActionType.exit, actionTime: new Date() },
+    // ];
     this.parkingLotToExitFrom = null;
     this.setUserState();
   }
@@ -82,10 +82,6 @@ export class ParkdService {
     var response = await this.http.get("/api/getParkingLotToExitFrom/"+userId).toPromise(); 
     return response as ParkingLot;    
   }
-
-  private getParkingLotById(parkId: number): ParkingLot {
-    return this.parkingLotList.find(x => x.id == parkId);
-  }
   
 
   async getUsersList(): Promise<User[]> {
@@ -106,9 +102,8 @@ export class ParkdService {
     console.log(this.userId + " , " + this.userState);
   }
 
-  reserveParking(parkingLot: ParkingLot){
-    console.log(parkingLot);
-    const userAction: UserAction = {
+  async reserveParking(parkingLot: ParkingLot){
+    const userAction = {
         id: 1,
         userId: this.userId,
         parkId: parkingLot.id,
@@ -116,7 +111,6 @@ export class ParkdService {
         actionTime: new Date()
     };
     
-    this.userActionList.push(userAction);
 
     let dialogRef = this.dialog.open(InfoDialogComponent, {
       width: '420px',
@@ -128,6 +122,9 @@ export class ParkdService {
     dialogRef.afterClosed().subscribe(result => {
       location.reload();
     });
+
+    var response = await this.http.get("/api/addUserAction/"+JSON.stringify(userAction)).toPromise();    
+    alert (response as string);
   }
 
   exitFromParking(parkingLot: ParkingLot){
@@ -144,7 +141,7 @@ export class ParkdService {
 
   }
 
-  async getOut(parkId: number){
+  async getOut(parkingLot: ParkingLot){
     let dialogRef = this.dialog.open(InfoDialogComponent, {
       width: '430px',
       height: "190px",
@@ -154,21 +151,22 @@ export class ParkdService {
 
     dialogRef.afterClosed().subscribe(result => {});
 
-    // try{
-    //     await this.http.post("/api/getOut", 
-    //                           {userId: this.userId, 
-    //                             parkId: parkId}
-    //     ).toPromise();
-        
-    // }
-    // catch (err){
-    //   console.log(err);
-    // }
+    const barrierInput = {
+      userId: this.userId,
+      parkId: parkingLot.id
+    };
+    console.log("/api/getOut/"+JSON.stringify(barrierInput));
+    try{
+      await this.http.get("/api/getOut/"+JSON.stringify(barrierInput)).toPromise(); 
+    }
+    catch (err){
+      console.log(err);
+    }
 
   }
 
 
-  async getIn(parkId: number){
+  async getIn(parkingLot: ParkingLot){
     let dialogRef = this.dialog.open(InfoDialogComponent, {
       width: '430px',
       height: "190px",
@@ -177,16 +175,18 @@ export class ParkdService {
     });
 
     dialogRef.afterClosed().subscribe(result => {});
-    // try{
-    //   await this.http.post("/api/getIn", 
-    //                         {userId: this.userId, 
-    //                          parkId: parkId}
-    //   ).toPromise();
-      
-    // }
-    // catch (err){
-    //   console.log(err);
-    // }
+    
+    const barrierInput = {
+      userId: this.userId,
+      parkId: parkingLot.id
+    };
+    console.log("/api/getIn/"+JSON.stringify(barrierInput));
+    try{
+      await this.http.get("/api/getIn/"+JSON.stringify(barrierInput)).toPromise(); 
+    }
+    catch (err){
+      console.log(err);
+    }
     
   }
 

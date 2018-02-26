@@ -21,11 +21,11 @@ export class ParkSimulateComponent implements OnInit {
   }
 
   enter(){
-    this.getIn.emit(this.parkingLot.id);
+    this.getIn.emit(this.parkingLot);
   }
 
   exit(){
-    this.getOut.emit(this.parkingLot.id);
+    this.getOut.emit(this.parkingLot);
   }
 
 }
