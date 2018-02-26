@@ -16,7 +16,6 @@ app.listen(3001, function() {
 
 app.get(
   "/api/getParkingLots",
-<<<<<<< HEAD
   wrap(async function(req) {
 =======
   wrapExpressApi(async function(req) {
