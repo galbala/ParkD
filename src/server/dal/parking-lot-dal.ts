@@ -7,6 +7,7 @@ import { ParkingLot  } from "../../app/model/parking-lot";
 
 mongodb.Cursor.prototype.toArrayAsync = promisify(mongodb.Cursor.prototype.toArray);
 mongodb.Collection.prototype.findAsync = promisify(mongodb.Collection.prototype.find);
+mongodb.Collection.prototype.updateAsync = promisify(mongodb.Collection.prototype.update);
 
 let client;
 let db;
@@ -108,9 +109,19 @@ function getUserAction(userId: number, actionType: ActionType): UserAction
 }
 
 
-function setParkingLot(parkingLot: ParkingLot)
+export async function setParkingLot(parkingLot: ParkingLot)
 {
-// todo: save in DB
+  client = await connect("mongodb://localhost:27017");
+  db = client.db("parkD");
+  const parkingLotList = db.collection("parkingLotList");
+  console.log(parkingLotList.find({ id: parkingLot.id }));
+
+  await parkingLotList.updateAsync({id:parkingLot.id}, JSON.stringify(parkingLot));
+
+  client.close();
+
+  return parkingLot;
+
 }
 
 function removeUserAction(userAction: UserAction, parkingLot: ParkingLot)

@@ -55,7 +55,7 @@ export class InfoDialogComponent implements OnInit {
     }
     else {
       if (this.data.isSimulator) {
-        if (this.data.actionType == "getOut") {
+        if (this.data.funcType == "getOut") {
           if(this.data.response == ExitReqResultType.exitAllowed){
             message = `${ this.data.userName }, יצאת מ-${ this.data.parkingLotName }`;
           }
@@ -63,7 +63,7 @@ export class InfoDialogComponent implements OnInit {
             message = `${ this.data.userName }, אינך ב-${ this.data.parkingLotName }`;
           }
         } 
-        else if (this.data.actionType == "getIn") {
+        else if (this.data.funcType == "getIn") {
           if(this.data.response == EnterReqResultType.enterAllowed){
             message = `${ this.data.userName }, נכנסת ל-${ this.data.parkingLotName }`;
           }
