@@ -18,7 +18,7 @@ export class ParkdService {
   private userList: User[] = [];
 
   //private parkingUserList: ParkingUser[];
-  private userActionList: UserAction[];
+  //private userActionList: UserAction[];
    parkingLotToExitFrom: ParkingLot;
 
   constructor(private http: HttpClient) { 
@@ -35,13 +35,13 @@ export class ParkdService {
     //   {parkId:3, userId: 3003},
     // ];
 
-    this.userActionList = [
-      {id: 1, userId: 1000, parkId: 1, actionType: ActionType.enter, actionTime: new Date() },
-      {id: 1, userId: 2000, parkId: 1, actionType: ActionType.exit, actionTime: new Date() },
-      {id: 1, userId: 3000, parkId: 2, actionType: ActionType.exit, actionTime: new Date() },
-      {id: 1, userId: 4000, parkId: 2, actionType: ActionType.exit, actionTime: new Date() },
-      {id: 1, userId: 5000, parkId: 3, actionType: ActionType.exit, actionTime: new Date() },
-    ];
+    // this.userActionList = [
+    //   {id: 1, userId: 1000, parkId: 1, actionType: ActionType.enter, actionTime: new Date() },
+    //   {id: 1, userId: 2000, parkId: 1, actionType: ActionType.exit, actionTime: new Date() },
+    //   {id: 1, userId: 3000, parkId: 2, actionType: ActionType.exit, actionTime: new Date() },
+    //   {id: 1, userId: 4000, parkId: 2, actionType: ActionType.exit, actionTime: new Date() },
+    //   {id: 1, userId: 5000, parkId: 3, actionType: ActionType.exit, actionTime: new Date() },
+    // ];
     this.parkingLotToExitFrom = null;
     this.setUserState();
   }
@@ -80,10 +80,6 @@ export class ParkdService {
     var response = await this.http.get("/api/getParkingLotToExitFrom/"+userId).toPromise(); 
     return response as ParkingLot;    
   }
-
-  private getParkingLotById(parkId: number): ParkingLot {
-    return this.parkingLotList.find(x => x.id == parkId);
-  }
   
 
   async getUsersList(): Promise<User[]> {
@@ -104,19 +100,17 @@ export class ParkdService {
     console.log(this.userId + " , " + this.userState);
   }
 
-  reserveParking(parkingLot: ParkingLot){
-    const userAction: UserAction = {
+  async reserveParking(parkingLot: ParkingLot){
+    const userAction = {
         id: 1,
         userId: this.userId,
         parkId: parkingLot.id,
         actionType: ActionType.enter,
         actionTime: new Date()
     };
-    
-    this.userActionList.push(userAction);
 
-    alert ("שוריין עבורך " + parkingLot.name);
-
+    var response = await this.http.get("/api/addUserAction/"+JSON.stringify(userAction)).toPromise();    
+    alert (response as string);
   }
 
   exitFromParking(parkingLot: ParkingLot){
