@@ -1,5 +1,5 @@
 import { ParkingUser } from "../../app/model/parking-user";
-import { UserAction, ActionType } from "../../app/model/user-action";
+import { UserAction, ActionType, ExitReqResultType, EnterReqResultType } from "../../app/model/user-action";
 import { promisify } from '../helpers/helpers';
 import * as mongodb from "mongodb";
 
@@ -114,14 +114,19 @@ function addParkingUser(userId: number, parkId: number)
 // todo: add to DB
 }
 
+function getParkingUser(userId: number, parkId: number):ParkingUser
+{
+  return null;
+}
+
 function removeParkingUser(userId: number, parkId: number)
 {
 // todo: add to DB
 }
 
-export function gateEnter(userId: number, parkId: number): boolean 
+export function gateEnter(userId: number, parkId: number): EnterReqResultType 
 {
-  var enterResult: boolean = false;
+  var enterResult: EnterReqResultType = EnterReqResultType.NoFreePlaces;
 
   // // get parking lot to enter
   let parkingLot = this.getParkingLotById(parkId);
@@ -145,41 +150,52 @@ export function gateEnter(userId: number, parkId: number): boolean
     this.setParkingLot(parkingLot); // in db
     this.addParkingUser(userId, parkId); // in db
 
-    enterResult = true;
+    enterResult = EnterReqResultType.enterAllowed;
   }
-  
+  else {
+    if (userEnterAction == null) {// user was not registered to reserve parking
+      enterResult = EnterReqResultType.NoFreePlaces;
+    }
+    else {
+      enterResult = EnterReqResultType.shouldWait;
+    }
+  }
   return enterResult;
 }
 
-export function gateExit(userId: number, parkId: number): boolean 
+
+export function gateExit(userId: number, parkId: number): ExitReqResultType 
 {
-  var exitResult: boolean = true;
+  var exitResult: ExitReqResultType = ExitReqResultType.NotInThisParkingLot;
 
   // get parking lot to exit
   let parkingLot = this.getParkingLotById(parkId);
 
+  var userIsInParkingLot = this.getParkingUser(userId, parkId);
   // check if user reported as one that about to exit
   var userAboutToExitAction = getUserAction(userId, ActionType.exit);
 
-  parkingLot.freePlaces++;
-
-  if(userAboutToExitAction != null)
+  if (userIsInParkingLot != null)
   {
-    parkingLot = this.removeUserAction(userAboutToExitAction, parkingLot);
+    if(userAboutToExitAction != null)
+    {
+      parkingLot = this.removeUserAction(userAboutToExitAction, parkingLot);
 
-    if (parkingLot.waitingToEnter > 0) {
-      parkingLot.reservedPlaces++;
+      if (parkingLot.waitingToEnter > 0) {
+        parkingLot.reservedPlaces++;
+      }
+      else {
+        parkingLot.freePlaces++;
+      }
     }
     else {
       parkingLot.freePlaces++;
     }
-  }
-  else {
-    parkingLot.freePlaces++;
-  }
 
-  this.setParkingLot(parkingLot); // in db
-  this.removeParkingUser(userId, parkId); // in db
+    this.setParkingLot(parkingLot); // in db
+    this.removeParkingUser(userId, parkId); // in db
+    exitResult = ExitReqResultType.exitAllowed;
+  }  
 
   return exitResult;
 }

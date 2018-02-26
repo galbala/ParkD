@@ -18,3 +18,9 @@ export enum EnterReqResultType {
     NoFreePlaces  = 3
 }
 
+
+export enum ExitReqResultType {
+    exitAllowed = 1,
+    NotInThisParkingLot  = 2
+}
+
