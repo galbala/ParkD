@@ -1,35 +1,21 @@
-<div>
- 
-  {{parkingLot.name}} 
-  {{parkingLot.freePlaces}}/{{parkingLot.totalPlaces}}
 
 
- <button *ngIf="parkingLot.freePlaces>=0" mat-raised-button color="primary" (click)="enter()" >+</button>
- <button *ngIf="parkingLot.totalPlaces-parkingLot.freePlaces>0" mat-raised-button color="primary" (click)="exit()" >-</button>
-
+<div class="card-container">
+    <mat-card>
+        <div class="parking-lot-name">
+            {{parkingLot.name}} 
+        </div>
+        <div class="status-section">
+            
+            <div class="parking-lot-status">
+                {{parkingLot.freePlaces}}/{{parkingLot.totalPlaces}}
+            </div>
+        </div>
+        <div class="simulate-btn">
+            <button id="minus" *ngIf="parkingLot.totalPlaces-parkingLot.freePlaces>0" mat-raised-button color="primary" (click)="exit()" >-</button>
+            <button id="plus" *ngIf="parkingLot.freePlaces>=0" mat-raised-button color="primary" (click)="enter()" >+</button>
+        </div>
+    </mat-card>
 </div>
 
 
-
-
-<!-- <div class="card-container">
-    <mat-card>
-      <div class="parking-lot-name">
-          {{parkingLot.name}} 
-      </div>
-      <div class="status-section">
-        <div class="parking-lot-status">
-            {{parkingLot.freePlaces}}/{{parkingLot.totalPlaces}}
-        </div>
-      </div>
-      <div class="exit-btn">
-        <span>
-            <button mat-raised-button color="primary" (disabled)="parkingLot.freePlaces>=0" (click)="enter()" >+</button>
-        </span>
-          <span>
-              <button mat-raised-button color="primary" (disabled)="parkingLot.totalPlaces-parkingLot.freePlaces>0" (click)="exit()" >-</button>
-          </span>
-          
-      </div>
-    </mat-card>
-  </div> -->
