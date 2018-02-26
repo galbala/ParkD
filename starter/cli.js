@@ -8,7 +8,14 @@ if (command == 'start') {
 function start() {
 
     spawn("md mongo-db & \"C:\\mongodb\\bin\\mongod.exe\"", [ 
-        " --dbpath mongodb\\mongodb_data "
+        " --dbpath mongo-db "
+    ] , {
+        shell: true,
+        stdio: "inherit"   
+    });
+
+    spawn("node", [ 
+        "starter\\mongoDB\\initiate_data.js"
     ] , {
         shell: true,
         stdio: "inherit"   
@@ -39,5 +46,5 @@ function start() {
         shell: true,
         stdio: "inherit"   
     });
-    
+
 }
