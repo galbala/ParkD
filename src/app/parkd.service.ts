@@ -119,33 +119,36 @@ export class ParkdService {
   }
 
   async getOut(parkId: number){
-    alert(this.userId + " יצאת מחניון "+ parkId);
-    // try{
-    //     await this.http.post("/api/getOut", 
-    //                           {userId: this.userId, 
-    //                             parkId: parkId}
-    //     ).toPromise();
-        
-    // }
-    // catch (err){
-    //   console.log(err);
-    // }
+    //alert(this.userId + " יצאת מחניון "+ parkId);
+    const barrierInput = {
+      userId: this.userId,
+      parkId: parkId
+    };
+    console.log("/api/getOut/"+JSON.stringify(barrierInput));
+    try{
+      await this.http.get("/api/getOut/"+JSON.stringify(barrierInput)).toPromise(); 
+    }
+    catch (err){
+      console.log(err);
+    }
 
   }
 
 
   async getIn(parkId: number){
-    alert(this.userId + " נכנסת לחניון " + parkId);
-    // try{
-    //   await this.http.post("/api/getIn", 
-    //                         {userId: this.userId, 
-    //                          parkId: parkId}
-    //   ).toPromise();
-      
-    // }
-    // catch (err){
-    //   console.log(err);
-    // }
+    //alert(this.userId + " נכנסת לחניון " + parkId);
+    
+    const barrierInput = {
+      userId: this.userId,
+      parkId: parkId
+    };
+    console.log("/api/getIn/"+JSON.stringify(barrierInput));
+    try{
+      await this.http.get("/api/getIn/"+JSON.stringify(barrierInput)).toPromise(); 
+    }
+    catch (err){
+      console.log(err);
+    }
     
   }
 
