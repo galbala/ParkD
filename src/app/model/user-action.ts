@@ -12,3 +12,9 @@ export enum ActionType {
 }
 
 
+export enum EnterReqResultType {
+    enterAllowed = 1,
+    shouldWait = 2,       // not allowed, המשתמש שריין מקום אך עדיין לא התפנה
+    NoFreePlaces  = 3
+}
+
