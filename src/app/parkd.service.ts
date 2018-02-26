@@ -16,7 +16,7 @@ export class ParkdService {
    userState: UserStateType;
   private userId: number = null;
   userName: string = null;
-  private parkingLotList: ParkingLot[] = [];
+  parkingLotList: ParkingLot[] = [];
   private userList: User[] = [];
 
   //private parkingUserList: ParkingUser[];
@@ -26,15 +26,16 @@ export class ParkdService {
   constructor(private http: HttpClient, public dialog: MatDialog) { 
 
     this.getUsersList();
-
+    this.getParkingList();
     this.parkingLotToExitFrom = null;
     this.setUserState();
   }
  
-  public resetUser(){
+  public resetAppState(){
     this.userId = null;
     this.userName = null;
     this.setUserState();
+    this.getParkingList();
   }
 
  
@@ -73,11 +74,10 @@ export class ParkdService {
     return this.userList;
   }
 
-  async getParkingList(): Promise<ParkingLot[]> {
+  async getParkingList(){
     var response = await this.http.get("/api/getParkingLots").toPromise(); 
     this.parkingLotList = response as ParkingLot[];
-    console.log(this.parkingLotList);
-    return this.parkingLotList;
+    
   }
 
   setUserAuth(id: number) {
@@ -105,7 +105,8 @@ export class ParkdService {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      location.reload();
+      this.resetAppState();
+      //location.reload();
     });
 
   }
@@ -129,7 +130,8 @@ export class ParkdService {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      location.reload();
+      this.resetAppState();
+      //location.reload();
     });
 
   }

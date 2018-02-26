@@ -16,12 +16,11 @@ export class ParkSimulationPageComponent implements OnInit {
   }
 
   constructor(private parkdService: ParkdService) { 
-    this.parkdService.resetUser();
   }
 
   async ngOnInit() {
-    this.parkingLotStatusList = await this.parkdService.getParkingList();
-    console.log(this.parkingLotStatusList);
+    //this.parkingLotStatusList = await this.parkdService.getParkingList();
+    //console.log(this.parkingLotStatusList);
   }
 
   //ngOnInit() {
