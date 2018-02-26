@@ -5,6 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "node starter/cli.js start",
+    "poststart": "node starter/mongoDB/initiate_data.js",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",

@@ -8,7 +8,7 @@ if (command == 'start') {
 function start() {
 
     spawn("md mongo-db & \"C:\\mongodb\\bin\\mongod.exe\"", [ 
-        " --dbpath mongodb\\mongodb_data"
+        " --dbpath mongodb\\mongodb_data "
     ] , {
         shell: true,
         stdio: "inherit"   
