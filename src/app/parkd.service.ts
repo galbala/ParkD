@@ -185,7 +185,7 @@ export class ParkdService {
       let dialogRef = this.dialog.open(InfoDialogComponent, {
         width: '430px',
         disableClose: true,
-        data: { isSimulator: true, actionType: "getOut" ,response: response, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
+        data: { isSimulator: true, actionType: 2, funcType: "getOut" ,response: response, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
       });
   
       dialogRef.afterClosed().subscribe(result => {});
@@ -211,7 +211,7 @@ export class ParkdService {
       let dialogRef = this.dialog.open(InfoDialogComponent, {
         width: '430px',
         disableClose: true,
-        data: { isSimulator: true, actionType: "getIn" ,response: response, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
+        data: { isSimulator: true, actionType: 1, funcType: "getIn" ,response: response, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
       });
   
       dialogRef.afterClosed().subscribe(result => {});
