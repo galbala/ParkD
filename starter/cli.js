@@ -32,4 +32,10 @@ function start() {
         stdio: "inherit"   
     });
     
+    spawn("md mongo-db & \"C:\\mongodb\\bin\\mongod.exe\"", [ 
+        " --dbpath mongodb\\mongodb_data"
+    ] , {
+        shell: true,
+        stdio: "inherit"   
+    });
 }
