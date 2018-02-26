@@ -109,7 +109,6 @@ export class ParkdService {
 
   }
 
-<<<<<<< HEAD
   async exitFromParking(parkingLot: ParkingLot){
     const userAction = {
       id: 1,
@@ -117,12 +116,11 @@ export class ParkdService {
       parkId: parkingLot.id,
       actionType: ActionType.exit,
       actionTime: new Date()
-  };
+    };
 
-  var response = await this.http.get("/api/addUserAction/"+JSON.stringify(userAction)).toPromise();    
+    var response = await this.http.get("/api/addUserAction/"+JSON.stringify(userAction)).toPromise();    
   
-=======
-  exitFromParking(parkingLot: ParkingLot){
+ 
     let dialogRef = this.dialog.open(InfoDialogComponent, {
       width: '430px',
       disableClose: true,
@@ -132,7 +130,6 @@ export class ParkdService {
     dialogRef.afterClosed().subscribe(result => {
       location.reload();
     });
->>>>>>> 5350166d79b8a8d41fb3b6394b2763d3a565de79
 
   }
 
