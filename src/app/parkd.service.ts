@@ -110,11 +110,12 @@ export class ParkdService {
         actionType: ActionType.enter,
         actionTime: new Date()
     };
-    
 
+    var response = await this.http.get("/api/addUserAction/"+JSON.stringify(userAction)).toPromise();    
+    console.log(response);
+    
     let dialogRef = this.dialog.open(InfoDialogComponent, {
       width: '420px',
-      height: "170px",
       disableClose: true,
       data: { actionType: ActionType.enter, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
     });
@@ -123,14 +124,11 @@ export class ParkdService {
       location.reload();
     });
 
-    var response = await this.http.get("/api/addUserAction/"+JSON.stringify(userAction)).toPromise();    
-    alert (response as string);
   }
 
   exitFromParking(parkingLot: ParkingLot){
     let dialogRef = this.dialog.open(InfoDialogComponent, {
       width: '430px',
-      height: "190px",
       disableClose: true,
       data: { actionType: ActionType.exit, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
     });
@@ -144,9 +142,8 @@ export class ParkdService {
   async getOut(parkingLot: ParkingLot){
     let dialogRef = this.dialog.open(InfoDialogComponent, {
       width: '430px',
-      height: "190px",
       disableClose: true,
-      data: { isSimulator: true, actionType: ActionType.exit, userName: this.getUserNameById(this.userId) }
+      data: { isSimulator: true, actionType: ActionType.exit, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
     });
 
     dialogRef.afterClosed().subscribe(result => {});
@@ -169,9 +166,8 @@ export class ParkdService {
   async getIn(parkingLot: ParkingLot){
     let dialogRef = this.dialog.open(InfoDialogComponent, {
       width: '430px',
-      height: "190px",
       disableClose: true,
-      data: { isSimulator: true, actionType: ActionType.enter, userName: this.getUserNameById(this.userId) }
+      data: { isSimulator: true, actionType: ActionType.enter, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
     });
 
     dialogRef.afterClosed().subscribe(result => {});
