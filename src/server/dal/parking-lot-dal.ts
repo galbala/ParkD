@@ -87,7 +87,7 @@ export async function getParkingLotToExitFrom(currentUserId: number) {
   
   console.log(parkingUser[0]);
   if (parkingUser != null && parkingUser.length > 0)
-    return this.getParkingLotById(parkingUser[0].parkId);
+    return await getParkingLotById(parkingUser[0].parkId);
   else
     return null;
 }
@@ -96,13 +96,12 @@ export async function addUserAction(userAction: UserAction) {
   client = await connect("mongodb://localhost:27017");
   db = client.db("parkD");
   const userActionList = db.collection("userActionList");
-  userAction.actionTime = new Date();
   await userActionList.insertOneAsync( {userId: userAction.userId, parkId: userAction.parkId, actionType: userAction.actionType, actionTime: userAction.actionTime});
   
   client.close();
 
 
-  let parkingLot = this.getParkingLotById(userAction.parkId);
+  let parkingLot = await getParkingLotById(userAction.parkId);
   if (userAction.actionType == ActionType.enter) {
     parkingLot.waitingToEnter++;
   }
@@ -147,10 +146,15 @@ export async function setParkingLot(parkingLot: ParkingLot)
 
 }
 
-function removeUserAction(userAction: UserAction, parkingLot: ParkingLot)
+async function removeUserAction(userAction: UserAction, parkingLot: ParkingLot)
 {
-// todo: add remove in DB to existing methid
-  
+  client = await connect("mongodb://localhost:27017");
+  db = client.db("parkD");
+  const userActionList = db.collection("userActionList");
+  await userActionList.removeAsync( {userId: userAction.userId, parkId: userAction.parkId, actionType: userAction.actionType, actionTime: userAction.actionTime});
+
+  client.close();
+
   if (userAction.actionType == ActionType.enter) {
     parkingLot.waitingToEnter--;
   }
@@ -160,31 +164,50 @@ function removeUserAction(userAction: UserAction, parkingLot: ParkingLot)
   return parkingLot;
 }
 
-function addParkingUser(userId: number, parkId: number)
+async function addParkingUser(userId: number, parkId: number)
 {
-// todo: add to DB
+  client = await connect("mongodb://localhost:27017");
+  db = client.db("parkD");
+  const parkingUserList = db.collection("parkingUserList");
+  await parkingUserList.insertOneAsync( {userId: userId, parkId: parkId});
+
+  client.close();
 }
 
-function getParkingUser(userId: number, parkId: number):ParkingUser
+async function getParkingUser(userId: number, parkId: number)
 {
-  //todo
-  return null;
+  client = await connect("mongodb://localhost:27017");
+  db = client.db("parkD");
+  const parkingUserList = db.collection("parkingUserList");
+  const parkingUser = await parkingUserList.find({ userId: userId, parkId: parkId }).toArrayAsync();
+  client.close();
+  if (parkingUser != null && parkingUser.length > 0)
+    return parkingUser[0];
+  else
+    return null;
+  
 }
 
-function removeParkingUser(userId: number, parkId: number)
+async function removeParkingUser(userId: number, parkId: number)
 {
-// todo: add to DB
+  client = await connect("mongodb://localhost:27017");
+  db = client.db("parkD");
+  const parkingUserList = db.collection("parkingUserList");
+  await parkingUserList.removeAsync( {userId: userId, parkId: parkId});
+
+  client.close();
+
 }
 
-export function gateEnter(userId: number, parkId: number): EnterReqResultType 
+export async function gateEnter(userId: number, parkId: number) 
 {
   var enterResult: EnterReqResultType = EnterReqResultType.NoFreePlaces;
 
   // // get parking lot to enter
-  let parkingLot = this.getParkingLotById(parkId);
+  let parkingLot = await getParkingLotById(parkId);
 
     // check if user already served parking
-  var userEnterAction = getUserAction(userId, ActionType.enter);
+  var userEnterAction = await getUserAction(userId, ActionType.enter);
 
   // check if there is free parking place
   if(parkingLot.freePlaces > 0 || (userEnterAction != null && parkingLot.reservedPlaces > 0))
@@ -196,11 +219,11 @@ export function gateEnter(userId: number, parkId: number): EnterReqResultType
     else 
     {
       parkingLot.reservedPlaces--;
-      parkingLot = this.removeUserAction(userEnterAction, parkingLot); 
+      parkingLot = await removeUserAction(userEnterAction, parkingLot); 
     }
 
-    this.setParkingLot(parkingLot); // in db
-    this.addParkingUser(userId, parkId); // in db
+    await setParkingLot(parkingLot); // in db
+    await addParkingUser(userId, parkId); // in db
 
     enterResult = EnterReqResultType.enterAllowed;
   }
@@ -215,22 +238,21 @@ export function gateEnter(userId: number, parkId: number): EnterReqResultType
   return enterResult;
 }
 
-export function gateExit(userId: number, parkId: number): ExitReqResultType 
+export async function gateExit(userId: number, parkId: number) 
 {
   var exitResult: ExitReqResultType = ExitReqResultType.NotInThisParkingLot;
 
   // get parking lot to exit
-  let parkingLot = this.getParkingLotById(parkId);
-
-  var userIsInParkingLot = this.getParkingUser(userId, parkId);
+  let parkingLot = await getParkingLotById(parkId);
+  var userIsInParkingLot = getParkingUser(userId, parkId);
   // check if user reported as one that about to exit
-  var userAboutToExitAction = getUserAction(userId, ActionType.exit);
+  var userAboutToExitAction = await getUserAction(userId, ActionType.exit);
 
   if (userIsInParkingLot != null)
   {
     if(userAboutToExitAction != null)
     {
-      parkingLot = this.removeUserAction(userAboutToExitAction, parkingLot);
+      parkingLot = await removeUserAction(userAboutToExitAction, parkingLot);
 
       if (parkingLot.waitingToEnter > 0) {
         parkingLot.reservedPlaces++;
@@ -243,8 +265,8 @@ export function gateExit(userId: number, parkId: number): ExitReqResultType
       parkingLot.freePlaces++;
     }
 
-    this.setParkingLot(parkingLot); // in db
-    this.removeParkingUser(userId, parkId); // in db
+    await setParkingLot(parkingLot); // in db
+    await removeParkingUser(userId, parkId); // in db
     exitResult = ExitReqResultType.exitAllowed;
   }  
 
