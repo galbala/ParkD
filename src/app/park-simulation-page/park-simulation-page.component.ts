@@ -29,12 +29,12 @@ export class ParkSimulationPageComponent implements OnInit {
     return this.parkdService.userState;
   }
 
-  onGetIn(parkId: number){
-    this.parkdService.getIn(parkId);
+  onGetIn(parkingLot: ParkingLot){
+    this.parkdService.getIn(parkingLot);
   }
 
-  onGetOut(parkId: number){
-    this.parkdService.getOut(parkId);
+  onGetOut(parkingLot: ParkingLot){
+    this.parkdService.getOut(parkingLot);
   }
 
 

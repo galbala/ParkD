@@ -11,7 +11,7 @@
 
 }
 .example-form-field {
-    width: 300px;
     margin-left: 10px;
+    width: 70% !important;
 }
 

@@ -6,6 +6,8 @@ import { HttpClient } from '@angular/common/http';
 
 import 'rxjs/add/operator/toPromise';
 import { User } from './model/user';
+import { MatDialog } from '@angular/material';
+import { InfoDialogComponent } from './info-dialog/info-dialog.component';
 
 
 @Injectable()
@@ -21,27 +23,10 @@ export class ParkdService {
   //private userActionList: UserAction[];
    parkingLotToExitFrom: ParkingLot;
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient, public dialog: MatDialog) { 
 
     this.getUsersList();
 
-    // this.parkingUserList = [
-    //   {parkId:1, userId: 1003},
-    //   {parkId:1, userId: 1004},
-    //   {parkId:1, userId: 1005},
-    //   {parkId:2, userId: 2001},
-    //   {parkId:2, userId: 2002},
-    //   {parkId:3, userId: 3001},
-    //   {parkId:3, userId: 3003},
-    // ];
-
-    // this.userActionList = [
-    //   {id: 1, userId: 1000, parkId: 1, actionType: ActionType.enter, actionTime: new Date() },
-    //   {id: 1, userId: 2000, parkId: 1, actionType: ActionType.exit, actionTime: new Date() },
-    //   {id: 1, userId: 3000, parkId: 2, actionType: ActionType.exit, actionTime: new Date() },
-    //   {id: 1, userId: 4000, parkId: 2, actionType: ActionType.exit, actionTime: new Date() },
-    //   {id: 1, userId: 5000, parkId: 3, actionType: ActionType.exit, actionTime: new Date() },
-    // ];
     this.parkingLotToExitFrom = null;
     this.setUserState();
   }
@@ -110,19 +95,56 @@ export class ParkdService {
     };
 
     var response = await this.http.get("/api/addUserAction/"+JSON.stringify(userAction)).toPromise();    
-    alert (response as string);
+    console.log(response);
+    
+    let dialogRef = this.dialog.open(InfoDialogComponent, {
+      width: '420px',
+      disableClose: true,
+      data: { actionType: ActionType.enter, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      location.reload();
+    });
+
   }
 
-  exitFromParking(parkingLot: ParkingLot){
-    alert ("יוצא מחניון: " + parkingLot.name + "\n" + "מס עובד: " + this.userId);
+  async exitFromParking(parkingLot: ParkingLot){
+    const userAction = {
+      id: 1,
+      userId: this.userId,
+      parkId: parkingLot.id,
+      actionType: ActionType.exit,
+      actionTime: new Date()
+    };
+
+    var response = await this.http.get("/api/addUserAction/"+JSON.stringify(userAction)).toPromise();    
+  
+ 
+    let dialogRef = this.dialog.open(InfoDialogComponent, {
+      width: '430px',
+      disableClose: true,
+      data: { actionType: ActionType.exit, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      location.reload();
+    });
 
   }
 
-  async getOut(parkId: number){
-    //alert(this.userId + " יצאת מחניון "+ parkId);
+  async getOut(parkingLot: ParkingLot){
+    let dialogRef = this.dialog.open(InfoDialogComponent, {
+      width: '430px',
+      disableClose: true,
+      data: { isSimulator: true, actionType: ActionType.exit, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {});
+
     const barrierInput = {
       userId: this.userId,
-      parkId: parkId
+      parkId: parkingLot.id
     };
     console.log("/api/getOut/"+JSON.stringify(barrierInput));
     try{
@@ -135,12 +157,18 @@ export class ParkdService {
   }
 
 
-  async getIn(parkId: number){
-    //alert(this.userId + " נכנסת לחניון " + parkId);
+  async getIn(parkingLot: ParkingLot){
+    let dialogRef = this.dialog.open(InfoDialogComponent, {
+      width: '430px',
+      disableClose: true,
+      data: { isSimulator: true, actionType: ActionType.enter, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {});
     
     const barrierInput = {
       userId: this.userId,
-      parkId: parkId
+      parkId: parkingLot.id
     };
     console.log("/api/getIn/"+JSON.stringify(barrierInput));
     try{

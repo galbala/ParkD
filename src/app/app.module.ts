@@ -13,6 +13,7 @@ import { ParkDPageComponent } from './park-d-page/park-d-page.component';
 import { ExitRequestComponent } from './exit-request/exit-request.component';
 import { ParkSimulateComponent } from './park-simulate/park-simulate.component';
 import { HttpClientModule } from '@angular/common/http';
+import { InfoDialogComponent } from './info-dialog/info-dialog.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { HttpClientModule } from '@angular/common/http';
     ParkSimulationPageComponent,
     ParkDPageComponent,
     ExitRequestComponent,
-    ParkSimulateComponent
+    ParkSimulateComponent,
+    InfoDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -32,6 +34,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     AppRoutingModule
   ],
+  entryComponents: [InfoDialogComponent],
   providers: [ParkdService],
   bootstrap: [AppComponent]
 })

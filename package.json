@@ -5,6 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "node starter/cli.js start",
+    "poststart": "node starter/mongoDB/initiate_data.js",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
@@ -26,6 +27,7 @@
     "@types/express": "^4.11.1",
     "core-js": "^2.4.1",
     "express": "^4.16.2",
+    "mongodb": "^3.0.3",
     "nodemon": "^1.15.1",
     "rxjs": "^5.5.6",
     "zone.js": "^0.8.19"
