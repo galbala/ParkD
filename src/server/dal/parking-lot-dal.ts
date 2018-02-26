@@ -1,12 +1,9 @@
 import { ParkingUser } from "../../app/model/parking-user";
 import { UserAction, ActionType } from "../../app/model/user-action";
-<<<<<<< HEAD
 import { promisify } from '../helpers/helpers';
 // import * as mongodb from "mongodb";
 
-=======
 import { ParkingLot  } from "../../app/model/parking-lot";
->>>>>>> bcd9390658894ebe6ad86957837938cb55d733c0
 
 this.parkingUserList = [
     {parkId:1, userId: 1000},
