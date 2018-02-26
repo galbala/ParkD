@@ -1,5 +1,8 @@
 import { ParkingUser } from "../../app/model/parking-user";
 import { UserAction, ActionType } from "../../app/model/user-action";
+import { promisify } from '../helpers/helpers';
+// import * as mongodb from "mongodb";
+
 
 this.parkingUserList = [
     {parkId:1, userId: 1000},
@@ -37,7 +40,6 @@ export async function getParkingLots() {
 export async function getUserList() {
   return this.userList;
 }
-
 
 export async function leaveParkingLot(userId : number, parkId : number ) {
   console.log("leaveParkingLot!! " + userId + ", " + parkId);
