@@ -45,6 +45,7 @@ export class ParkdService {
   public resetAppState(){
     this._userId = null;
     this.userName = null;
+    this.parkingLotToExitFrom = null;
     this.setUserState();
     this.getParkingList();
   }
