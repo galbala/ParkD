@@ -4,6 +4,7 @@ import { promisify } from '../helpers/helpers';
 import * as mongodb from "mongodb";
 
 import { ParkingLot  } from "../../app/model/parking-lot";
+import { json } from "express";
 
 mongodb.Cursor.prototype.toArrayAsync = promisify(mongodb.Cursor.prototype.toArray);
 mongodb.Collection.prototype.findAsync = promisify(mongodb.Collection.prototype.find);
@@ -174,6 +175,21 @@ async function addParkingUser(userId: number, parkId: number)
   client.close();
 }
 
+
+async function getAnyParkingUser(userId: number)
+{
+  client = await connect("mongodb://localhost:27017");
+  db = client.db("parkD");
+  const parkingUserList = db.collection("parkingUserList");
+  const parkingUser = await parkingUserList.find({ userId: userId }).toArrayAsync();
+  client.close();
+  if (parkingUser != null && parkingUser.length > 0)
+    return parkingUser[0];
+  else
+    return null;
+  
+}
+
 async function getParkingUser(userId: number, parkId: number)
 {
   client = await connect("mongodb://localhost:27017");
@@ -202,6 +218,27 @@ async function removeParkingUser(userId: number, parkId: number)
 export async function gateEnter(userId: number, parkId: number) 
 {
   var enterResult: EnterReqResultType = EnterReqResultType.NoFreePlaces;
+
+  console.log("**** 1 " + userId + "  " +  parkId);
+
+
+  // check if user already in any parkingLot
+  let anyParkingUser: ParkingUser = await getAnyParkingUser(userId);
+
+  console.log("**** 2 " + JSON.stringify(anyParkingUser));
+
+  if(anyParkingUser != null)
+  {
+    if(anyParkingUser.parkId ==  parkId)
+    {
+        return EnterReqResultType.AlreadyParkedHere;
+    }
+    else
+    {
+       return EnterReqResultType.AlreadyParkedInOther
+    }
+  }
+
 
   // // get parking lot to enter
   let parkingLot = await getParkingLotById(parkId);

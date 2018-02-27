@@ -70,6 +70,12 @@ export class InfoDialogComponent implements OnInit {
           else if(this.data.response == EnterReqResultType.NoFreePlaces){
             message = `${ this.data.userName }, מצטערים, אין חניה ב-${ this.data.parkingLotName }`;
           }
+          else if(this.data.response == EnterReqResultType.AlreadyParkedHere){
+            message = `${ this.data.userName }, מצטערים, את/ה כבר מחנה ב-${ this.data.parkingLotName }`;
+          }
+          else if(this.data.response == EnterReqResultType.AlreadyParkedInOther){
+            message = `${ this.data.userName }, מצטערים, את/ה כבר מחנה בחניון אחר`;
+          }
           else{ //EnterReqResultType.shouldWait
             message = `${ this.data.userName }, החניה השמורה לך עדיין לא התפנתה ב-${ this.data.parkingLotName }`;
           }
