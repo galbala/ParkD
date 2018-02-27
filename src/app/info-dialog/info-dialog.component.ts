@@ -104,14 +104,6 @@ export class InfoDialogComponent implements OnInit {
             message = `${ this.data.userName }, תודה, אך כבר הודעת על פינוי חנייה`;
           }
         }
-        else
-        {
-          //if (this.data.actionType == 1) {
-            //message = `החניה ב-${ this.data.parkingLotName } שוריינה בהצלחה ל-${ this.data.userName }.`;
-          //} else {
-            message = `${ this.data.userName }, תודה שעדכנת על כוונתך לפנות את החניה מ-${ this.data.parkingLotName }.`;;
-          //}
-        }
       }
     }
 
