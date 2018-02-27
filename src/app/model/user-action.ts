@@ -29,6 +29,8 @@ export enum EnterReqResultType {
 
 export enum ExitReqResultType {
     exitAllowed = 1,
-    NotInThisParkingLot  = 2
+    NotInAnyParkingLot  = 2,
+    InAnotherParkingLot = 3
+    
 }
 
