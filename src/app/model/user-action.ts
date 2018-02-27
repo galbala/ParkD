@@ -12,6 +12,18 @@ export enum ActionType {
 }
 
 
+export enum AboutToExitResultType {
+    Done = 1,
+    AlreadyAboutToExit = 2,
+    Failed = 3
+}
+
+export enum ReserveResultType {
+    Reserved = 1,
+    AlreadyReservedOther = 2,
+    FailedToReserve = 3
+}
+
 export enum EnterReqResultType {
     enterAllowed = 1,
     shouldWait = 2,       // not allowed, המשתמש שריין מקום אך עדיין לא התפנה
@@ -23,6 +35,8 @@ export enum EnterReqResultType {
 
 export enum ExitReqResultType {
     exitAllowed = 1,
-    NotInThisParkingLot  = 2
+    NotInAnyParkingLot  = 2,
+    InAnotherParkingLot = 3
+    
 }
 

@@ -1,5 +1,5 @@
 import { ParkingUser } from "../../app/model/parking-user";
-import { UserAction, ActionType, ExitReqResultType, EnterReqResultType } from "../../app/model/user-action";
+import { UserAction, ActionType, ExitReqResultType, EnterReqResultType, ReserveResultType, AboutToExitResultType } from "../../app/model/user-action";
 import { promisify } from '../helpers/helpers';
 import * as mongodb from "mongodb";
 
@@ -92,6 +92,9 @@ export async function getParkingLotToExitFrom(currentUserId: number) {
   else
     return null;
 }
+
+
+
 
 export async function addUserAction(userAction: UserAction) {
   client = await connect("mongodb://localhost:27017");
@@ -215,6 +218,47 @@ async function removeParkingUser(userId: number, parkId: number)
 
 }
 
+
+
+export async function aboutToExitParking(userAction: UserAction){
+  var aboutToExitResult: AboutToExitResultType = AboutToExitResultType.Failed;
+
+  // check if user already reserved other parking
+  var aboutToExitUserAction = await getUserAction(userAction.userId, ActionType.exit);
+
+  if(aboutToExitUserAction != null)
+  {
+    aboutToExitResult = AboutToExitResultType.AlreadyAboutToExit;
+  }
+  else
+  {
+    addUserAction(userAction);
+    aboutToExitResult = AboutToExitResultType.Done;
+  }
+
+  return aboutToExitResult;
+}
+
+
+export async function reserveParking(userAction: UserAction){
+  var reserveResult: ReserveResultType = ReserveResultType.FailedToReserve;
+
+  // check if user already reserved other parking
+  var enterUserAction = await getUserAction(userAction.userId, ActionType.enter);
+
+  if(enterUserAction != null)
+  {
+    reserveResult = ReserveResultType.AlreadyReservedOther;
+  }
+  else
+  {
+    addUserAction(userAction);
+    reserveResult = ReserveResultType.Reserved;
+  }
+
+  return reserveResult;
+}
+
 export async function gateEnter(userId: number, parkId: number) 
 {
   var enterResult: EnterReqResultType = EnterReqResultType.NoFreePlaces;
@@ -277,35 +321,34 @@ export async function gateEnter(userId: number, parkId: number)
 
 export async function gateExit(userId: number, parkId: number) 
 {
-  var exitResult: ExitReqResultType = ExitReqResultType.NotInThisParkingLot;
+  var exitResult: ExitReqResultType = ExitReqResultType.NotInAnyParkingLot;
 
   // get parking lot to exit
-  let parkingLot = await getParkingLotById(parkId);
-  var userIsInParkingLot = getParkingUser(userId, parkId);
-  // check if user reported as one that about to exit
+  let parkingLot = await getParkingLotToExitFrom(userId); 
+  if (parkingLot == null){ //the user is not in any parking lot
+    return ExitReqResultType.NotInAnyParkingLot;
+  }
+  else if (parkingLot.id != parkId){
+    return ExitReqResultType.InAnotherParkingLot;
+  }
   var userAboutToExitAction = await getUserAction(userId, ActionType.exit);
 
-  if (userIsInParkingLot != null)
-  {
-    if(userAboutToExitAction != null)
-    {
-      parkingLot = await removeUserAction(userAboutToExitAction, parkingLot);
-
-      if (parkingLot.waitingToEnter > 0) {
-        parkingLot.reservedPlaces++;
-      }
-      else {
-        parkingLot.freePlaces++;
-      }
+  if(userAboutToExitAction != null){
+    parkingLot = await removeUserAction(userAboutToExitAction, parkingLot);
+    if (parkingLot.waitingToEnter > 0) {
+      parkingLot.reservedPlaces++;
     }
     else {
       parkingLot.freePlaces++;
     }
+  }
+  else {
+    parkingLot.freePlaces++;
+  }
 
-    await setParkingLot(parkingLot); // in db
-    await removeParkingUser(userId, parkId); // in db
-    exitResult = ExitReqResultType.exitAllowed;
-  }  
-
+  await setParkingLot(parkingLot); // in db
+  await removeParkingUser(userId, parkId); // in db
+  exitResult = ExitReqResultType.exitAllowed;
   return exitResult;
-}
+}  
+
