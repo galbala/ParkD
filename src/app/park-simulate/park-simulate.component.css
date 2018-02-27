@@ -26,28 +26,24 @@
 .status-section {
     text-align: right;
     display: inline-block;
-    width:10%;
-    /* margin-top: 20px; */
+    width: 30%;
+    margin-top: 20px;
 }
 
 .parking-lot-status {
-    width: 150px;
 }
 
 .simulate-btn {
     display: inline-block; 
     float: left;
-    width:200px;
     height: 100px; 
 }
 
 .simulate-btn button #minus {
     float:left;
     margin-top: 10px;
-    height: 70px;
 }
 
 .simulate-btn button #plus {
     margin-top: 10px;
-    height: 70px;
 }

@@ -12,4 +12,4 @@
   </div>
 </div>
 <router-outlet></router-outlet>
-<!-- <div style="height: 350px;background: red;"></div> -->
+<app-loader *ngIf="parkdService.isLoader"></app-loader>

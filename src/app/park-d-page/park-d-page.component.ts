@@ -22,7 +22,7 @@ export class ParkDPageComponent implements OnInit {
   }
 
   ngOnInit(){
-    
+    this.parkdService.resetAppState();
   }
 
   get userState() {

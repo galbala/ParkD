@@ -1,6 +1,19 @@
+div.simulate {
+  margin-top: 10px;
+  direction: rtl;
+  text-align: center;
+}
 
-div.simulate{
-    margin-top: 10px;
-    direction: rtl;
-    text-align: center;
+.sim-header {
+  writing-mode: vertical-rl;
+  bottom: 0;
+  margin-left: 20px;
+  position: fixed;
+  left: 0;
+  margin-bottom: 20px;
+  font-size: 36px;
+  color: #dad8d8;
+  letter-spacing: 10px;
+  user-select: none;
+  cursor: default;
 }
