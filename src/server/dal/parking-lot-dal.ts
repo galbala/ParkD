@@ -268,7 +268,7 @@ export async function gateEnter(userId: number, parkId: number)
 
     // check if user already served parking
   var userEnterAction = await getUserAction(userId, ActionType.enter);
-
+  console.log("userEnterAction",userEnterAction);
   // check if there is free parking place
   if(parkingLot.freePlaces > 0 || (userEnterAction != null && parkingLot.reservedPlaces > 0))
   {
@@ -278,8 +278,13 @@ export async function gateEnter(userId: number, parkId: number)
     }
     else 
     {
-      parkingLot.reservedPlaces--;
-      parkingLot = await removeUserAction(userEnterAction, parkingLot); 
+      if (parkingLot.id == userEnterAction.parkId){
+          parkingLot.reservedPlaces--;
+          parkingLot = await removeUserAction(userEnterAction, parkingLot); 
+      }
+      else {
+        return EnterReqResultType.ReservedPlaceInOther;
+      }
     }
 
     await setParkingLot(parkingLot); // in db

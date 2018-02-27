@@ -23,7 +23,8 @@ export enum EnterReqResultType {
     shouldWait = 2,       // not allowed, המשתמש שריין מקום אך עדיין לא התפנה
     NoFreePlaces  = 3,
     AlreadyParkedHere = 4,
-    AlreadyParkedInOther = 5
+    AlreadyParkedInOther = 5,
+    ReservedPlaceInOther = 6
 }
 
 
