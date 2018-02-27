@@ -1,16 +1,24 @@
 const {spawn} = require("child_process");
 const command = process.argv[2];
 
+
 if (command == 'start') {
     start();
 }
 
 function start() {
 
+    const fs = require('fs');
     const mongoPath = process.env.MONGO_PATH;
+    const path =  mongoPath+"\\mongod.exe";
+    
     if (!mongoPath) {
         throw new Error("MONGO_PATH is empty")
-      }
+    } else {
+        if (!fs.existsSync(path)) {
+            const path = mongoPath+"\\bin";
+        } 
+    }
     
     spawn("md mongo-db & \""+mongoPath+"\\mongod.exe\"", [ 
         " --dbpath mongo-db "
