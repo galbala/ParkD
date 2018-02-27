@@ -22,9 +22,9 @@ async function main() {
     await parkingLotList.removeAsync();
     console.log("parkingLotList Remove");
     await parkingLotList.insertManyAsync([
-        {id:1, name: 'חניון עובדים', totalPlaces:300, freePlaces: 10, reservedPlaces:0, aboutToBeFreePlaces:0  , waitingToEnter: 0},
-        {id:2, name: 'חניון דרום', totalPlaces:100, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:0, waitingToEnter: 0},
-        {id:3, name: 'חניון עבודה סוציאלית', totalPlaces:200, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:0, waitingToEnter: 0},
+        {id:1, name: 'חניון עובדים', totalPlaces:300, freePlaces: 1, reservedPlaces:0, aboutToBeFreePlaces:0  , waitingToEnter: 0},
+        {id:2, name: 'חניון דרום', totalPlaces:100, freePlaces: 1, reservedPlaces:0, aboutToBeFreePlaces:0, waitingToEnter: 0},
+        {id:3, name: 'חניון עבודה סוציאלית', totalPlaces:200, freePlaces: 90, reservedPlaces:0, aboutToBeFreePlaces:0, waitingToEnter: 0},
         {id:4, name: 'חניון גולפיטק', totalPlaces:500, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:0, waitingToEnter: 0},
     ]);
     console.log("parkingLotList insertMany");
@@ -47,11 +47,11 @@ async function main() {
 
     await parkingUserList.removeAsync();
     console.log("parkingUserList Remove");
-    await parkingUserList.insertManyAsync([
-        {parkId:1, userId: 1000},
-        {parkId:2, userId: 2000},
-      ]);
-    console.log("parkingUserList insertMany");
+    // await parkingUserList.insertManyAsync([
+    //     {parkId:1, userId: 1000},
+    //     {parkId:2, userId: 2000},
+    //   ]);
+    // console.log("parkingUserList insertMany");
 
     console.log("Closing");
     client.close();
