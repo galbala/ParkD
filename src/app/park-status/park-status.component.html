@@ -3,7 +3,8 @@
 <div class="card-container">
   <mat-card>
     <div class="parking-lot-name">
-      {{parkingLot.name}}
+      <i class="material-icons car-icon" [ngClass]="(parkingLot.freePlaces > 0) ? 'green' : (parkingLot.aboutToBeFreePlaces - parkingLot.waitingToEnter > 0) ? 'orange' : 'red'">directions_car</i>
+      <span class="parking-name">{{parkingLot.name}}</span>
     </div>
     <div class="status-section">
 
