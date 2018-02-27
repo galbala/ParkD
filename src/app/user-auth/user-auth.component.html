@@ -7,7 +7,7 @@
           <i class="material-icons">keyboard_arrow_left</i>
         </button>
         <div>
-          <span style="font-size:20px;font-weight:bold;user-select:none;cursor:default;">{{userName}}  {{parkingLotName}}</span>
+          <span style="font-size:20px;font-weight:bold;user-select:none;cursor:default;" *ngIf="userName">שלום {{userName}} {{parkingLotName}}</span>
         </div>
     </mat-card>
 </div>
