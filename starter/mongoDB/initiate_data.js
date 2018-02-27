@@ -31,9 +31,8 @@ async function main() {
 
     await userActionList.removeAsync();
     console.log("userActionList Remove");
-    await userActionList.insertManyAsync([
-    ]);
-    console.log("userActionList insertMany");
+    //await userActionList.insertManyAsync([    ]);
+    //console.log("userActionList insertMany");
       
     await userList.removeAsync();
     console.log("userList Remove");
