@@ -277,35 +277,34 @@ export async function gateEnter(userId: number, parkId: number)
 
 export async function gateExit(userId: number, parkId: number) 
 {
-  var exitResult: ExitReqResultType = ExitReqResultType.NotInThisParkingLot;
+  var exitResult: ExitReqResultType = ExitReqResultType.NotInAnyParkingLot;
 
   // get parking lot to exit
-  let parkingLot = await getParkingLotById(parkId);
-  var userIsInParkingLot = getParkingUser(userId, parkId);
-  // check if user reported as one that about to exit
+  let parkingLot = await getParkingLotToExitFrom(userId); 
+  if (parkingLot == null){ //the user is not in any parking lot
+    return ExitReqResultType.NotInAnyParkingLot;
+  }
+  else if (parkingLot.id != parkId){
+    return ExitReqResultType.InAnotherParkingLot;
+  }
   var userAboutToExitAction = await getUserAction(userId, ActionType.exit);
 
-  if (userIsInParkingLot != null)
-  {
-    if(userAboutToExitAction != null)
-    {
-      parkingLot = await removeUserAction(userAboutToExitAction, parkingLot);
-
-      if (parkingLot.waitingToEnter > 0) {
-        parkingLot.reservedPlaces++;
-      }
-      else {
-        parkingLot.freePlaces++;
-      }
+  if(userAboutToExitAction != null){
+    parkingLot = await removeUserAction(userAboutToExitAction, parkingLot);
+    if (parkingLot.waitingToEnter > 0) {
+      parkingLot.reservedPlaces++;
     }
     else {
       parkingLot.freePlaces++;
     }
+  }
+  else {
+    parkingLot.freePlaces++;
+  }
 
-    await setParkingLot(parkingLot); // in db
-    await removeParkingUser(userId, parkId); // in db
-    exitResult = ExitReqResultType.exitAllowed;
-  }  
-
+  await setParkingLot(parkingLot); // in db
+  await removeParkingUser(userId, parkId); // in db
+  exitResult = ExitReqResultType.exitAllowed;
   return exitResult;
-}
+}  
+

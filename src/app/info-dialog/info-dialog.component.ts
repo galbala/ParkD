@@ -59,7 +59,10 @@ export class InfoDialogComponent implements OnInit {
           if(this.data.response == ExitReqResultType.exitAllowed){
             message = `${ this.data.userName }, יצאת מ-${ this.data.parkingLotName }`;
           }
-          else{ //ExitReqResultType.NotInThisParkingLot
+          else if (this.data.response == ExitReqResultType.NotInAnyParkingLot){ //ExitReqResultType.NotInAnyParkingLot
+            message = `${ this.data.userName }, אינך חונה באף חניון`;
+          }
+          else {//ExitReqResultType.InAnotherParkingLot
             message = `${ this.data.userName }, אינך ב-${ this.data.parkingLotName }`;
           }
         } 
