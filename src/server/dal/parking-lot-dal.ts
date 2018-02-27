@@ -1,5 +1,5 @@
 import { ParkingUser } from "../../app/model/parking-user";
-import { UserAction, ActionType, ExitReqResultType, EnterReqResultType } from "../../app/model/user-action";
+import { UserAction, ActionType, ExitReqResultType, EnterReqResultType, ReserveResultType } from "../../app/model/user-action";
 import { promisify } from '../helpers/helpers';
 import * as mongodb from "mongodb";
 
@@ -92,6 +92,9 @@ export async function getParkingLotToExitFrom(currentUserId: number) {
   else
     return null;
 }
+
+
+
 
 export async function addUserAction(userAction: UserAction) {
   client = await connect("mongodb://localhost:27017");
@@ -213,6 +216,26 @@ async function removeParkingUser(userId: number, parkId: number)
 
   client.close();
 
+}
+
+
+export async function reserveParking(userAction: UserAction){
+  var reserveResult: ReserveResultType = ReserveResultType.FailedToReserve;
+
+  // check if user already reserved other parking
+  var enterUserAction = await getUserAction(userAction.userId, ActionType.enter);
+
+  if(enterUserAction != null)
+  {
+    reserveResult = ReserveResultType.AlreadyReservedOther;
+  }
+  else
+  {
+    addUserAction(userAction);
+    reserveResult = ReserveResultType.Reserved;
+  }
+
+  return reserveResult;
 }
 
 export async function gateEnter(userId: number, parkId: number) 

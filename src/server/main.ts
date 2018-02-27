@@ -5,7 +5,8 @@ import {
   gateExit,
   getParkingLotToExitFrom,
   getUserList,
-  addUserAction
+  addUserAction,
+  reserveParking
 } from "./dal/parking-lot-dal";
 import { UserAction } from "../app/model/user-action";
 
@@ -36,6 +37,15 @@ app.get(
     return await addUserAction(userAction);
   })
 );
+
+app.get(
+  "/api/reserveParking/:userAction",
+  wrap(async function(req) {
+    const userAction = JSON.parse(req.params.userAction);
+    return await reserveParking(userAction);
+  })
+);
+
 
 app.get(
   "/api/getUserList",
