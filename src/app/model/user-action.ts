@@ -12,6 +12,12 @@ export enum ActionType {
 }
 
 
+export enum ReserveResultType {
+    Reserved = 1,
+    AlreadyReservedOther = 2,
+    FailedToReserve = 3
+}
+
 export enum EnterReqResultType {
     enterAllowed = 1,
     shouldWait = 2,       // not allowed, המשתמש שריין מקום אך עדיין לא התפנה
