@@ -9,6 +9,7 @@ import {FormsModule } from '@angular/forms';
 })
 export class UserAuthComponent implements OnInit {
   userId: string = "";
+  isLoader: boolean = false;
   
   constructor(private parkdService: ParkdService) { }
 

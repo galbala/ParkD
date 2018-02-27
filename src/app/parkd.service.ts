@@ -13,22 +13,22 @@ import { InfoDialogComponent } from './info-dialog/info-dialog.component';
 
 @Injectable()
 export class ParkdService {
+  private _isLoader: boolean = false;
+  public get isLoader():boolean {
+      return this._isLoader;
+  }
 
    userState: UserStateType;
   private userId: number = null;
   userName: string = null;
   parkingLotList: ParkingLot[] = [];
   private userList: User[] = [];
-
-  //private parkingUserList: ParkingUser[];
-  //private userActionList: UserAction[];
    parkingLotToExitFrom: ParkingLot;
 
   constructor(private http: HttpClient, public dialog: MatDialog) { 
-
+    this.parkingLotToExitFrom = null;
     this.getUsersList();
     this.getParkingList();
-    this.parkingLotToExitFrom = null;
     this.setUserState();
   }
  
@@ -39,7 +39,6 @@ export class ParkdService {
     this.getParkingList();
   }
 
- 
   showErrDialog(message: string, error: any){
     console.log(error);
     var fullMsg:string = message + "  " + error;
@@ -52,6 +51,7 @@ export class ParkdService {
   }
 
   private async setUserState() {
+    this._isLoader = true;
     var parkingUser: ParkingUser;
 
     if (this.userId == null){
@@ -72,6 +72,8 @@ export class ParkdService {
           this.userState = UserStateType.enter;
         }
     }
+
+    this._isLoader = false;
   }
 
   private async getParkingLotToExitFrom(userId: number): Promise<ParkingLot> {
@@ -115,6 +117,8 @@ export class ParkdService {
   }
 
   async reserveParking(parkingLot: ParkingLot){
+    this._isLoader = true;
+
     const userAction = {
         //id: 1,
         userId: this.userId,
@@ -126,6 +130,7 @@ export class ParkdService {
     try{
       var response = await this.http.get("/api/addUserAction/"+JSON.stringify(userAction)).toPromise();    
       console.log(response);
+      this._isLoader = false;
       
       let dialogRef = this.dialog.open(InfoDialogComponent, {
         width: '420px',
@@ -145,6 +150,8 @@ export class ParkdService {
   }
 
   async exitFromParking(parkingLot: ParkingLot){
+    this._isLoader = true;
+
     const userAction = {
       //id: 1,
       userId: this.userId,
@@ -156,6 +163,7 @@ export class ParkdService {
     try{
       console.log("*************",userAction);
       var response = await this.http.get("/api/addUserAction/"+JSON.stringify(userAction)).toPromise();    
+      this._isLoader = false;
    
       let dialogRef = this.dialog.open(InfoDialogComponent, {
         width: '430px',
@@ -175,6 +183,7 @@ export class ParkdService {
   }
 
   async getOut(parkingLot: ParkingLot){
+    this._isLoader = true;
 
     const barrierInput = {
       userId: this.userId,
@@ -184,6 +193,7 @@ export class ParkdService {
     try{
       var response = await this.http.get("/api/getOut/"+JSON.stringify(barrierInput)).toPromise(); 
 
+      this._isLoader = false;
       let dialogRef = this.dialog.open(InfoDialogComponent, {
         width: '430px',
         disableClose: true,
@@ -200,6 +210,7 @@ export class ParkdService {
 
 
   async getIn(parkingLot: ParkingLot){
+    this._isLoader = true;
 
     const barrierInput = {
       userId: this.userId,
@@ -210,6 +221,7 @@ export class ParkdService {
 
       var response = await this.http.get("/api/getIn/"+JSON.stringify(barrierInput)).toPromise(); 
 
+      this._isLoader = false;
       let dialogRef = this.dialog.open(InfoDialogComponent, {
         width: '430px',
         disableClose: true,

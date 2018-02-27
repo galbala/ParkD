@@ -19,6 +19,7 @@ export class ParkSimulationPageComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.parkdService.resetAppState();
     //this.parkingLotStatusList = await this.parkdService.getParkingList();
   }
 

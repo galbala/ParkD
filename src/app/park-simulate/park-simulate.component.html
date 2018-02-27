@@ -12,8 +12,12 @@
             </div>
         </div>
         <div class="simulate-btn">
-            <button id="minus" *ngIf="parkingLot.totalPlaces-parkingLot.freePlaces>0" mat-raised-button color="primary" (click)="exit()" >-</button>
-            <button id="plus" *ngIf="parkingLot.freePlaces>=0" mat-raised-button color="primary" (click)="enter()" >+</button>
+            <button id="minus" *ngIf="parkingLot.totalPlaces-parkingLot.freePlaces>0" mat-raised-button color="primary" (click)="exit()" style="height: 90px !important;">
+                <i class="material-icons">remove</i>
+            </button>
+            <button id="plus" *ngIf="parkingLot.freePlaces>=0" mat-raised-button color="primary" (click)="enter()" style="height: 90px !important;" >
+                <i class="material-icons">add</i>
+            </button>
         </div>
     </mat-card>
 </div>

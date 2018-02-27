@@ -14,6 +14,7 @@ import { ExitRequestComponent } from './exit-request/exit-request.component';
 import { ParkSimulateComponent } from './park-simulate/park-simulate.component';
 import { HttpClientModule } from '@angular/common/http';
 import { InfoDialogComponent } from './info-dialog/info-dialog.component';
+import { LoaderComponent } from './loader/loader.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { InfoDialogComponent } from './info-dialog/info-dialog.component';
     ParkDPageComponent,
     ExitRequestComponent,
     ParkSimulateComponent,
-    InfoDialogComponent
+    InfoDialogComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
