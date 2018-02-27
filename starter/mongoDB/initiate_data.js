@@ -32,9 +32,6 @@ async function main() {
     await userActionList.removeAsync();
     console.log("userActionList Remove");
     await userActionList.insertManyAsync([
-        {userId: 3000, parkId: 2, actionType: 2, actionTime: new Date() },
-        {userId: 4000, parkId: 2, actionType: 2, actionTime: new Date() },
-        {userId: 5000, parkId: 3, actionType: 2, actionTime: new Date() },
     ]);
     console.log("userActionList insertMany");
       
