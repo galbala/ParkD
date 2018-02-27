@@ -147,7 +147,7 @@ export class ParkdService {
         width: '420px',
         disableClose: true,
         //data: { actionType: ActionType.enter, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
-          data: { actionType: ActionType.enter, funcType: "reserveParking" ,response: response, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
+          data: { actionType: ActionType.enter, funcType: "reserveParking" ,response: response, parkingLotName: parkingLot.name, userName: this.getUserNameById(this._userId) }
       });
   
       dialogRef.afterClosed().subscribe(result => {
