@@ -22,18 +22,17 @@ async function main() {
     await parkingLotList.removeAsync();
     console.log("parkingLotList Remove");
     await parkingLotList.insertManyAsync([
-        {id:1, name: 'חניון עובדים', totalPlaces:300, freePlaces: 10, reservedPlaces:0, aboutToBeFreePlaces:0  , waitingToEnter: 1},
-        {id:2, name: 'חניון דרום', totalPlaces:100, freePlaces: 0, reservedPlaces:2, aboutToBeFreePlaces:1, waitingToEnter: 1},
-        {id:3, name: 'חניון עבודה סוציאלית', totalPlaces:200, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:1, waitingToEnter: 0},
-        {id:4, name: 'חניון גולפיטק', totalPlaces:500, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:1, waitingToEnter: 0},
+        {id:1, name: 'חניון עובדים', totalPlaces:300, freePlaces: 10, reservedPlaces:0, aboutToBeFreePlaces:0  , waitingToEnter: 0},
+        {id:2, name: 'חניון דרום', totalPlaces:100, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:0, waitingToEnter: 0},
+        {id:3, name: 'חניון עבודה סוציאלית', totalPlaces:200, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:0, waitingToEnter: 0},
+        {id:4, name: 'חניון גולפיטק', totalPlaces:500, freePlaces: 0, reservedPlaces:0, aboutToBeFreePlaces:0, waitingToEnter: 0},
     ]);
     console.log("parkingLotList insertMany");
 
     await userActionList.removeAsync();
     console.log("userActionList Remove");
-    await userActionList.insertManyAsync([
-    ]);
-    console.log("userActionList insertMany");
+    //await userActionList.insertManyAsync([    ]);
+    //console.log("userActionList insertMany");
       
     await userList.removeAsync();
     console.log("userList Remove");

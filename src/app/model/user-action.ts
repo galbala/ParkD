@@ -12,6 +12,12 @@ export enum ActionType {
 }
 
 
+export enum AboutToExitResultType {
+    Done = 1,
+    AlreadyAboutToExit = 2,
+    Failed = 3
+}
+
 export enum ReserveResultType {
     Reserved = 1,
     AlreadyReservedOther = 2,

@@ -25,6 +25,15 @@ export class UserAuthComponent implements OnInit {
     }
   }
 
+  get parkingLotName(){
+    if(this.parkdService.parkingLotToExitFrom == null){
+      return "";
+    }
+    else{
+      return "(מחנה ב-" +  this.parkdService.parkingLotToExitFrom.name + ")";
+    }    
+  }
+
   confirmUser() {
     this.parkdService.setUserAuth(Number(this.parkdService.userId));
   }

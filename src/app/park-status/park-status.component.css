@@ -53,3 +53,27 @@
     height:90px;
     float:left;
 }
+
+.car-icon {
+    font-size: 32px;
+    vertical-align: middle;
+    user-select: none;
+    cursor: default;
+    margin-left: 5px;
+}
+
+.parking-name {
+    vertical-align: middle;
+}
+
+.green {
+    color: green;
+}
+
+.red {
+    color: darkred;
+}
+
+.orange {
+    color: orange;
+}

@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { ExitReqResultType, EnterReqResultType, ReserveResultType } from '../model/user-action';
+import { ExitReqResultType, EnterReqResultType, ReserveResultType, AboutToExitResultType } from '../model/user-action';
 
 @Component({
   selector: 'app-info-dialog',
@@ -99,13 +99,13 @@ export class InfoDialogComponent implements OnInit {
             message = `${ this.data.userName }, מצטערים, כבר שריינת חנייה`;
           }
         }
-        else
-        {
-          //if (this.data.actionType == 1) {
-            //message = `החניה ב-${ this.data.parkingLotName } שוריינה בהצלחה ל-${ this.data.userName }.`;
-          //} else {
+        else if(this.data.funcType == "exitFromParking"){
+          if(this.data.response == AboutToExitResultType.Done){
             message = `${ this.data.userName }, תודה שעדכנת על כוונתך לפנות את החניה מ-${ this.data.parkingLotName }.`;;
-          //}
+          }
+          else if(this.data.response == AboutToExitResultType.AlreadyAboutToExit){
+            message = `${ this.data.userName }, תודה, אך כבר הודעת על פינוי חנייה`;
+          }
         }
       }
     }

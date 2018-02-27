@@ -1,5 +1,5 @@
 import { ParkingUser } from "../../app/model/parking-user";
-import { UserAction, ActionType, ExitReqResultType, EnterReqResultType, ReserveResultType } from "../../app/model/user-action";
+import { UserAction, ActionType, ExitReqResultType, EnterReqResultType, ReserveResultType, AboutToExitResultType } from "../../app/model/user-action";
 import { promisify } from '../helpers/helpers';
 import * as mongodb from "mongodb";
 
@@ -216,6 +216,27 @@ async function removeParkingUser(userId: number, parkId: number)
 
   client.close();
 
+}
+
+
+
+export async function aboutToExitParking(userAction: UserAction){
+  var aboutToExitResult: AboutToExitResultType = AboutToExitResultType.Failed;
+
+  // check if user already reserved other parking
+  var aboutToExitUserAction = await getUserAction(userAction.userId, ActionType.exit);
+
+  if(aboutToExitUserAction != null)
+  {
+    aboutToExitResult = AboutToExitResultType.AlreadyAboutToExit;
+  }
+  else
+  {
+    addUserAction(userAction);
+    aboutToExitResult = AboutToExitResultType.Done;
+  }
+
+  return aboutToExitResult;
 }
 
 
