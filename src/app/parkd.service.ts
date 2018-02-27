@@ -18,8 +18,18 @@ export class ParkdService {
       return this._isLoader;
   }
 
-   userState: UserStateType;
-  private userId: number = null;
+  private _userId: number;
+  public get userId(): string {
+    if (this._userId == null) {
+      return "";  
+    }
+    return String(this._userId);
+  }
+  public set userId(value:string) {
+    this._userId = Number(value);
+  }
+
+  userState: UserStateType;
   userName: string = null;
   parkingLotList: ParkingLot[] = [];
   private userList: User[] = [];
@@ -33,7 +43,7 @@ export class ParkdService {
   }
  
   public resetAppState(){
-    this.userId = null;
+    this._userId = null;
     this.userName = null;
     this.setUserState();
     this.getParkingList();
@@ -54,17 +64,17 @@ export class ParkdService {
     this._isLoader = true;
     var parkingUser: ParkingUser;
 
-    if (this.userId == null){
+    if (this._userId == null){
       this.userState = UserStateType.notExist;
       this.userName = "";
     }
     else {
-      this.userName = this.getUserNameById(this.userId); 
+      this.userName = this.getUserNameById(this._userId); 
       if(this.userName == null){
         this.userState = UserStateType.notExist;
       }
       else{
-        this.parkingLotToExitFrom = await this.getParkingLotToExitFrom(this.userId);
+        this.parkingLotToExitFrom = await this.getParkingLotToExitFrom(this._userId);
       
         if (this.parkingLotToExitFrom != null)
           this.userState = UserStateType.exit;
@@ -111,9 +121,9 @@ export class ParkdService {
   }
 
   setUserAuth(id: number) {
-    this.userId = id;
+    this._userId = id;
     this.setUserState();
-    console.log(this.userId + " , " + this.userState);
+    console.log(this._userId + " , " + this.userState);
   }
 
   async reserveParking(parkingLot: ParkingLot){
@@ -121,7 +131,7 @@ export class ParkdService {
 
     const userAction = {
         //id: 1,
-        userId: this.userId,
+        userId: this._userId,
         parkId: parkingLot.id,
         actionType: ActionType.enter,
         actionTime: new Date()
@@ -135,7 +145,7 @@ export class ParkdService {
       let dialogRef = this.dialog.open(InfoDialogComponent, {
         width: '420px',
         disableClose: true,
-        data: { actionType: ActionType.enter, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
+        data: { actionType: ActionType.enter, parkingLotName: parkingLot.name, userName: this.getUserNameById(this._userId) }
       });
   
       dialogRef.afterClosed().subscribe(result => {
@@ -154,7 +164,7 @@ export class ParkdService {
 
     const userAction = {
       //id: 1,
-      userId: this.userId,
+      userId: this._userId,
       parkId: parkingLot.id,
       actionType: ActionType.exit,
       actionTime: new Date()
@@ -168,7 +178,7 @@ export class ParkdService {
       let dialogRef = this.dialog.open(InfoDialogComponent, {
         width: '430px',
         disableClose: true,
-        data: { actionType: ActionType.exit, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
+        data: { actionType: ActionType.exit, parkingLotName: parkingLot.name, userName: this.getUserNameById(this._userId) }
       });
   
       dialogRef.afterClosed().subscribe(result => {
@@ -186,7 +196,7 @@ export class ParkdService {
     this._isLoader = true;
 
     const barrierInput = {
-      userId: this.userId,
+      userId: this._userId,
       parkId: parkingLot.id
     };
     console.log("/api/getOut/"+JSON.stringify(barrierInput));
@@ -197,10 +207,12 @@ export class ParkdService {
       let dialogRef = this.dialog.open(InfoDialogComponent, {
         width: '430px',
         disableClose: true,
-        data: { isSimulator: true, actionType: 2, funcType: "getOut" ,response: response, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
+        data: { isSimulator: true, actionType: 2, funcType: "getOut" ,response: response, parkingLotName: parkingLot.name, userName: this.getUserNameById(this._userId) }
       });
   
-      dialogRef.afterClosed().subscribe(result => {});
+      dialogRef.afterClosed().subscribe(result => {
+        this.resetAppState();
+      });
     }
     catch(err){
       this.showErrDialog("שגיאה בתהליך יציאה מחניון", err);
@@ -213,7 +225,7 @@ export class ParkdService {
     this._isLoader = true;
 
     const barrierInput = {
-      userId: this.userId,
+      userId: this._userId,
       parkId: parkingLot.id
     };
     console.log("/api/getIn/"+JSON.stringify(barrierInput));
@@ -225,10 +237,12 @@ export class ParkdService {
       let dialogRef = this.dialog.open(InfoDialogComponent, {
         width: '430px',
         disableClose: true,
-        data: { isSimulator: true, actionType: 1, funcType: "getIn" ,response: response, parkingLotName: parkingLot.name, userName: this.getUserNameById(this.userId) }
+        data: { isSimulator: true, actionType: 1, funcType: "getIn" ,response: response, parkingLotName: parkingLot.name, userName: this.getUserNameById(this._userId) }
       });
   
-      dialogRef.afterClosed().subscribe(result => {});
+      dialogRef.afterClosed().subscribe(result => {
+        this.resetAppState();
+      });
 
     }
     catch(err){
