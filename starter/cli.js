@@ -9,16 +9,17 @@ if (command == 'start') {
 function start() {
 
     const fs = require('fs');
-    const mongoPath = process.env.MONGO_PATH;
-    const path =  mongoPath+"\\mongod.exe";
+    var mongoPath = process.env.MONGO_PATH;
     
     if (!mongoPath) {
         throw new Error("MONGO_PATH is empty")
     } else {
-        if (!fs.existsSync(path)) {
-            const path = mongoPath+"\\bin";
-        } 
+        if (!fs.existsSync(mongoPath+"\\mongod.exe")) {
+            console.log(mongoPath+"\\mongod.exe")
+            mongoPath = mongoPath+"\\bin";
+        }
     }
+
     
     spawn("md mongo-db & \""+mongoPath+"\\mongod.exe\"", [ 
         " --dbpath mongo-db "
