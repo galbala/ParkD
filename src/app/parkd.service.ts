@@ -174,13 +174,16 @@ export class ParkdService {
 
     try{
       console.log("*************",userAction);
-      var response = await this.http.get("/api/addUserAction/"+JSON.stringify(userAction)).toPromise();    
+      //var response = await this.http.get("/api/addUserAction/"+JSON.stringify(userAction)).toPromise();    
+      var response = await this.http.get("/api/aboutToExitParking/"+JSON.stringify(userAction)).toPromise();    
+      
       this._isLoader = false;
    
       let dialogRef = this.dialog.open(InfoDialogComponent, {
         width: '430px',
         disableClose: true,
-        data: { actionType: ActionType.exit, parkingLotName: parkingLot.name, userName: this.getUserNameById(this._userId) }
+        //data: { actionType: ActionType.exit, parkingLotName: parkingLot.name, userName: this.getUserNameById(this._userId) }
+        data: { actionType: ActionType.exit, funcType: "exitFromParking" ,response: response, parkingLotName: parkingLot.name, userName: this.getUserNameById(this._userId) }
       });
   
       dialogRef.afterClosed().subscribe(result => {
