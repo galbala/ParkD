@@ -12,6 +12,10 @@
     height: 90px;
 }
 
+.card-container mat-card:hover {
+    background: #dedada;
+}
+
 .parking-lot-name {
     height:90px;
     float: right;

@@ -8,7 +8,7 @@ import {FormsModule } from '@angular/forms';
   styleUrls: ['./user-auth.component.css']
 })
 export class UserAuthComponent implements OnInit {
-  userId: string = "";
+  // userId: string = "";
   isLoader: boolean = false;
   
   constructor(private parkdService: ParkdService) { }
@@ -26,7 +26,7 @@ export class UserAuthComponent implements OnInit {
   }
 
   confirmUser() {
-    this.parkdService.setUserAuth(Number(this.userId));
+    this.parkdService.setUserAuth(Number(this.parkdService.userId));
   }
 
 
